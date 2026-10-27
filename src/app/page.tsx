@@ -1,16 +1,27 @@
+'use client';
+
+import React from 'react';
+import { Header } from '@/components/ui/Header';
+import { IntakeChat } from '@/components/chat/IntakeChat';
+import { EventCard } from '@/components/eventcard/EventCard';
+
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center">
-      <main className="flex flex-col items-center gap-6 text-center px-6 py-32">
-        <h1 className="text-4xl font-semibold tracking-tight">
-          🎉 Utsav Copilot
-        </h1>
-        <p className="max-w-md text-lg text-zinc-600 dark:text-zinc-400">
-          A living event plan for Indian family celebrations.
-        </p>
-        <p className="text-sm text-zinc-400 dark:text-zinc-500">
-          Under construction — Phase 0 scaffold complete.
-        </p>
+    <div className="min-h-screen flex flex-col bg-stone-100 dark:bg-stone-950 font-sans text-stone-900 dark:text-stone-100 antialiased selection:bg-amber-200 dark:selection:bg-amber-900">
+      <Header />
+
+      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full min-h-[calc(100vh-8rem)]">
+          {/* Left Column: Intake Chat (7 cols on lg = ~58%) */}
+          <div className="lg:col-span-7 h-[650px] lg:h-full">
+            <IntakeChat />
+          </div>
+
+          {/* Right Column: Live Event Card (5 cols on lg = ~42%) */}
+          <div className="lg:col-span-5 h-[650px] lg:h-full">
+            <EventCard />
+          </div>
+        </div>
       </main>
     </div>
   );
