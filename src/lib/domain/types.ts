@@ -85,9 +85,7 @@ export const EventStateSchema = z.object({
     logistics: 3,
   }),
   lockedCategories: z.array(CoreCategorySchema).default([]),
-  lockedBudgetLines: z.record(CoreCategorySchema, z.number().int().nonnegative()).default(
-    {} as Record<CoreCategory, number>
-  ),
+  lockedBudgetLines: z.record(z.string(), z.number().int().nonnegative()).default({}),
   constraints: ConstraintsSchema.default({
     dietary: [],
     accessibility: [],
