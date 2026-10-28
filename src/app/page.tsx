@@ -6,6 +6,8 @@ import { IntakeChat } from '@/components/chat/IntakeChat';
 import { EventCard } from '@/components/eventcard/EventCard';
 import { BudgetTab } from '@/components/budget/BudgetTab';
 import { TimelineTab } from '@/components/timeline/TimelineTab';
+import { IdeasTab } from '@/components/ideas/IdeasTab';
+import { VendorsTab } from '@/components/vendors/VendorsTab';
 import { Tabs, TabId, TabItem } from '@/components/ui/Tabs';
 import { ChangeBar, ReplanReviewPayload } from '@/components/replan/ChangeBar';
 import { ReplanDiffModal } from '@/components/replan/ReplanDiffModal';
@@ -16,7 +18,7 @@ export default function Home() {
   const [replanPayload, setReplanPayload] = useState<ReplanReviewPayload | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const { plan } = useEventStore();
+  const { plan, quotes } = useEventStore();
 
   const budgetWarningsCount = (plan?.warnings || []).filter(
     (w) => w.code === 'LOW_PER_GUEST_CATERING' || w.code === 'HIGH_PER_HEAD_VENUE'
@@ -44,17 +46,14 @@ export default function Home() {
     },
     {
       id: 'ideas',
-      label: 'Tradeoffs & Ideas',
+      label: 'Personalized Ideas',
       icon: '💡',
-      disabled: true,
-      badge: 'Phase 6',
     },
     {
       id: 'vendors',
       label: 'Vendor Quotes',
       icon: '🧾',
-      disabled: true,
-      badge: 'Phase 6',
+      badge: quotes.length > 0 ? quotes.length : undefined,
     },
   ];
 
@@ -107,6 +106,8 @@ export default function Home() {
               {activeTab === 'intake' && <IntakeChat />}
               {activeTab === 'budget' && <BudgetTab />}
               {activeTab === 'timeline' && <TimelineTab />}
+              {activeTab === 'ideas' && <IdeasTab />}
+              {activeTab === 'vendors' && <VendorsTab />}
             </div>
 
             {/* Always-accessible Change Bar */}

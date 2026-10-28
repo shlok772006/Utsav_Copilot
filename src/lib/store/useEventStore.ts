@@ -3,7 +3,8 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import { addDays, formatISODate } from '../domain/timeline';
 import { applyOps } from '../domain/ops';
 import { buildPlan } from '../domain/plan';
-import { EventState, EventStateSchema, Op, Plan } from '../domain/types';
+import { ConceptIdea, QuoteExtractionOutput } from '../llm/schemas';
+import { CoreCategory, EventState, EventStateSchema, NormalizedQuote, Op, Plan } from '../domain/types';
 import { MAX_HISTORY_SNAPSHOTS } from '../config/limits';
 
 export interface HistoryEntry {
@@ -19,11 +20,23 @@ export interface ChatMessage {
   timestamp: number;
 }
 
+export interface StoredQuote {
+  id: string;
+  category: CoreCategory;
+  vendorName: string;
+  rawText: string;
+  extraction: QuoteExtractionOutput;
+  normalized: NormalizedQuote;
+  timestamp: number;
+}
+
 export interface EventStoreState {
   state: EventState;
   plan: Plan | null;
   history: HistoryEntry[];
   chatMessages: ChatMessage[];
+  concepts: ConceptIdea[];
+  quotes: StoredQuote[];
   isGenerating: boolean;
   error: string | null;
 
@@ -34,6 +47,9 @@ export interface EventStoreState {
   loadSampleEvent: () => void;
   resetEvent: () => void;
   addChatMessage: (role: 'user' | 'assistant', content: string) => void;
+  setConcepts: (concepts: ConceptIdea[]) => void;
+  addQuote: (quote: StoredQuote) => void;
+  removeQuote: (quoteId: string) => void;
   setIsGenerating: (isGenerating: boolean) => void;
   setError: (error: string | null) => void;
 }
@@ -101,6 +117,138 @@ export function createSampleEventState(today: string = getTodayIso()): EventStat
   };
 }
 
+export const SAMPLE_QUOTES: StoredQuote[] = [
+  {
+    id: 'quote-sample-1',
+    category: 'catering',
+    vendorName: 'Annapurna Caterers (Pune)',
+    rawText:
+      'Annapurna Caterers: ₹650 per plate, 60 guests min, includes service staff and setup, GST 5% extra. Excludes live dessert counter.',
+    extraction: {
+      vendorName: 'Annapurna Caterers (Pune)',
+      category: 'catering',
+      totalPrice: null,
+      unitPrice: 650,
+      unitLabel: 'per plate',
+      guestsCovered: 60,
+      inclusions: ['Service staff', 'Buffet table setup', 'Basic crockery and cutlery'],
+      exclusions: ['Live dessert counter', 'Beverages and bottled water'],
+      additionalCharges: ['GST 5% extra on final invoice'],
+      paymentTerms: '50% advance on booking, 50% after event wrap-up',
+      validity: '15 days from quote date',
+      missing: ['Live counter price'],
+      questionsToAsk: [
+        'Is bottled drinking water and ice cubes included in the per-plate rate?',
+        'What is your staff-to-guest ratio on the event day?',
+        'Do you provide chafing dishes and warmers or should the venue provide them?',
+      ],
+    },
+    normalized: {
+      category: 'catering',
+      vendorName: 'Annapurna Caterers (Pune)',
+      totalPrice: 40950,
+      perGuest: 683,
+      vsBudgetLine: -106636,
+      isOverBudget: false,
+      missingFields: [],
+      warnings: [],
+    },
+    timestamp: Date.now() - 3600000,
+  },
+  {
+    id: 'quote-sample-2',
+    category: 'catering',
+    vendorName: 'Royal Feast Banquet Kitchens',
+    rawText:
+      'Royal Feast: Fixed package ₹1,65,000 all inclusive, covers up to 60 guests, live chaat and hot jalebi counters, cinematic buffet presentation, 50% advance.',
+    extraction: {
+      vendorName: 'Royal Feast Banquet Kitchens',
+      category: 'catering',
+      totalPrice: 165000,
+      unitPrice: null,
+      unitLabel: null,
+      guestsCovered: 60,
+      inclusions: [
+        'Live chaat counter & hot jalebi counter',
+        'Cinematic royal buffet presentation',
+        'Uniformed servers and captain',
+        'Premium brass & bone-china cutlery',
+      ],
+      exclusions: ['Extra guests beyond 60 charged at ₹2,500/plate'],
+      additionalCharges: ['Taxes not specified in quote'],
+      paymentTerms: '50% advance on booking, balance on event morning',
+      validity: '10 days from quote date',
+      missing: ['Tax rate not stated'],
+      questionsToAsk: [
+        'Does the ₹1,65,000 fixed price include GST, or will 18% GST be added?',
+        'How early does your team need venue access for live counter setup?',
+        'What happens if 5-10 unexpected guests arrive?',
+      ],
+    },
+    normalized: {
+      category: 'catering',
+      vendorName: 'Royal Feast Banquet Kitchens',
+      totalPrice: 165000,
+      perGuest: 2750,
+      vsBudgetLine: 17414,
+      isOverBudget: true,
+      missingFields: ['taxRate'],
+      warnings: [
+        {
+          code: 'OVER_BUDGET_QUOTE',
+          severity: 'warn',
+          message:
+            'Royal Feast Banquet Kitchens quote (₹1,65,000) exceeds the catering budget allocation by ₹17,414.',
+          related: ['catering'],
+        },
+      ],
+    },
+    timestamp: Date.now() - 1800000,
+  },
+];
+
+export const SAMPLE_CONCEPTS: ConceptIdea[] = [
+  {
+    name: 'Silver Jubilee Royal Feast & Nostalgia Courtyard',
+    vibe: 'Warm, golden celebration honoring 25 years with traditional Pune flavors and family storytelling.',
+    whereMoneyGoes: 'Largest allocation into multi-course Maharashtrian & North Indian feast with live jalebi counter; elegant marigold floral backdrop.',
+    costLevel: 'similar',
+    comfortNotes: 'Ground-floor banquet seating with cushioned armchairs for grandparents; separate quiet corner for elder conversations.',
+    risks: 'Live counters can create bottlenecks if queue flow is not designated clearly.',
+    firstThreeSteps: [
+      'Confirm caterer menu tasting session for parents',
+      'Reserve ground-floor banquet hall with wheelchair access',
+      'Collect 25 vintage family photos for memory gallery wall',
+    ],
+  },
+  {
+    name: 'Intimate Candlelit Garden Soirée',
+    vibe: 'Cozy evening with ambient fairy lights, acoustic vintage melodies, and plated dessert service.',
+    whereMoneyGoes: 'Emphasis on ambient string lighting, open lawn permissions, and cinematic candid photography.',
+    costLevel: 'lower',
+    comfortNotes: 'Paved walkways ensure smooth walking for elders; mosquito repellent fogging done 2 hours before.',
+    risks: 'Outdoor evening events need an immediate indoor monsoon/wind contingency shelter.',
+    firstThreeSteps: [
+      'Check garden lawn curfew timings and sound permissions',
+      'Select 15 couple milestones for a short retrospective video',
+      'Book acoustic guitarist or instrumentalist for dinner',
+    ],
+  },
+  {
+    name: 'Grand Darbar Heritage Gala',
+    vibe: 'Lavish regal setup with royal Rajasthani shamiana, brass flower urli decorations, and live Shehnai / flute welcome.',
+    whereMoneyGoes: 'Higher decor share with traditional brass artifacts, heavy marigold floral chandeliers, and live musicians.',
+    costLevel: 'higher',
+    comfortNotes: 'Wide central aisles for easy navigation; reserved front-row sofa seating for parents and elderly relatives.',
+    risks: 'High decor complexity requires at least 8 hours of prior venue setup time.',
+    firstThreeSteps: [
+      'Shortlist heritage style banquet lawns with early setup access',
+      'Review decorator portfolio for authentic brass & fabric work',
+      'Coordinate color-coordinated ethnic attire theme for close family',
+    ],
+  },
+];
+
 export const useEventStore = create<EventStoreState>()(
   persist(
     (set, get) => ({
@@ -108,6 +256,8 @@ export const useEventStore = create<EventStoreState>()(
       plan: null,
       history: [],
       chatMessages: [INITIAL_CHAT_MESSAGE],
+      concepts: [],
+      quotes: [],
       isGenerating: false,
       error: null,
 
@@ -180,6 +330,8 @@ export const useEventStore = create<EventStoreState>()(
           state: sampleState,
           plan: newPlan,
           history: newHistory,
+          concepts: SAMPLE_CONCEPTS,
+          quotes: SAMPLE_QUOTES,
           chatMessages: [
             INITIAL_CHAT_MESSAGE,
             {
@@ -206,6 +358,8 @@ export const useEventStore = create<EventStoreState>()(
           plan: null,
           history: [],
           chatMessages: [INITIAL_CHAT_MESSAGE],
+          concepts: [],
+          quotes: [],
           error: null,
         });
       },
@@ -218,6 +372,18 @@ export const useEventStore = create<EventStoreState>()(
           ],
         }));
       },
+
+      setConcepts: (concepts) => set({ concepts }),
+
+      addQuote: (quote) =>
+        set((prev) => ({
+          quotes: [quote, ...prev.quotes.filter((q) => q.id !== quote.id)],
+        })),
+
+      removeQuote: (quoteId) =>
+        set((prev) => ({
+          quotes: prev.quotes.filter((q) => q.id !== quoteId),
+        })),
 
       setIsGenerating: (isGenerating) => set({ isGenerating }),
       setError: (error) => set({ error }),

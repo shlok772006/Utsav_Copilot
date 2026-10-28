@@ -48,14 +48,22 @@ describe('Home Page Integration', () => {
     expect(screen.getByPlaceholderText(/Budget 4 lakh/i)).toBeInTheDocument();
   });
 
-  it('disables future tabs with Phase badges', () => {
+  it('switches between all 5 dashboard tabs including Ideas and Vendors', () => {
+    useEventStore.getState().loadSampleEvent();
     render(<Home />);
 
-    const ideasTab = screen.getByRole('tab', { name: /Tradeoffs & Ideas/i });
-    const vendorsTab = screen.getByRole('tab', { name: /Vendor Quotes/i });
+    // Switch to Ideas tab
+    const ideasTabBtn = screen.getByRole('tab', { name: /Personalized Ideas/i });
+    expect(ideasTabBtn).not.toBeDisabled();
+    fireEvent.click(ideasTabBtn);
 
-    expect(ideasTab).toBeDisabled();
-    expect(vendorsTab).toBeDisabled();
-    expect(screen.getAllByText('Phase 6').length).toBe(2);
+    expect(screen.getByText(/Personalized Celebration Concepts/i)).toBeInTheDocument();
+
+    // Switch to Vendors tab
+    const vendorsTabBtn = screen.getByRole('tab', { name: /Vendor Quotes/i });
+    expect(vendorsTabBtn).not.toBeDisabled();
+    fireEvent.click(vendorsTabBtn);
+
+    expect(screen.getByText(/Vendor Quotes & Comparison/i)).toBeInTheDocument();
   });
 });
