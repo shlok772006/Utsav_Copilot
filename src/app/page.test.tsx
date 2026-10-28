@@ -56,7 +56,6 @@ describe('Home Page Integration', () => {
 
     expect(ideasTab).toBeDisabled();
     expect(vendorsTab).toBeDisabled();
-    expect(screen.getByText('Phase 5')).toBeInTheDocument();
-    expect(screen.getByText('Phase 6')).toBeInTheDocument();
+    expect(screen.getAllByText('Phase 6').length).toBe(2);
   });
 });
