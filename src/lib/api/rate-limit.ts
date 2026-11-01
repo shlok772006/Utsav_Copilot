@@ -29,7 +29,7 @@ export function getClientIp(req: NextRequest): string {
 export function checkRateLimit(
   ip: string,
   maxRequests: number = RATE_LIMIT_CONFIG.maxRequests,
-  windowMs: number = RATE_LIMIT_CONFIG.windowMs
+  windowMs: number = RATE_LIMIT_CONFIG.windowMs,
 ): { allowed: boolean; remaining: number; resetMs: number } {
   const now = Date.now();
   let record = ipStore.get(ip);

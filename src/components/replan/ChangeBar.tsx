@@ -63,7 +63,9 @@ export const ChangeBar: React.FC<ChangeBarProps> = ({ onReplanReady, className =
 
       if (!changeRes.ok) {
         const errJson = await changeRes.json().catch(() => ({}));
-        throw new Error(errJson.error?.message || `Change request failed (HTTP ${changeRes.status})`);
+        throw new Error(
+          errJson.error?.message || `Change request failed (HTTP ${changeRes.status})`,
+        );
       }
 
       const changeData = (await changeRes.json()) as {
@@ -80,7 +82,9 @@ export const ChangeBar: React.FC<ChangeBarProps> = ({ onReplanReady, className =
 
       const ops = changeData.ops || [];
       if (ops.length === 0) {
-        setClarification('No specific plan adjustments were detected. Try mentioning a budget amount, guest count, or date.');
+        setClarification(
+          'No specific plan adjustments were detected. Try mentioning a budget amount, guest count, or date.',
+        );
         setIsLoading(false);
         return;
       }
@@ -104,7 +108,10 @@ export const ChangeBar: React.FC<ChangeBarProps> = ({ onReplanReady, className =
         tradeoff: 'Accepts the new budget and deadline constraints directly.',
       };
 
-      const scenarios: Scenario[] = [directScenario, ...rawScenarios.filter((s) => s.id !== 'direct-change')];
+      const scenarios: Scenario[] = [
+        directScenario,
+        ...rawScenarios.filter((s) => s.id !== 'direct-change'),
+      ];
 
       // 5. Call /api/advise to get advisor narration
       let advice: AdvisorAdvice;
@@ -155,7 +162,9 @@ export const ChangeBar: React.FC<ChangeBarProps> = ({ onReplanReady, className =
 
       setText('');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to process plan change. Please try again.');
+      setError(
+        err instanceof Error ? err.message : 'Failed to process plan change. Please try again.',
+      );
     } finally {
       setIsLoading(false);
     }
@@ -247,7 +256,10 @@ export const ChangeBar: React.FC<ChangeBarProps> = ({ onReplanReady, className =
       )}
 
       {/* Change Input Form */}
-      <form onSubmit={handleFormSubmit} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+      <form
+        onSubmit={handleFormSubmit}
+        className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
+      >
         <div className="relative flex-1">
           <input
             type="text"
@@ -292,7 +304,9 @@ export const ChangeBar: React.FC<ChangeBarProps> = ({ onReplanReady, className =
 
       {/* Hero Quick Demo Chip */}
       <div className="mt-2.5 flex items-center gap-2 overflow-x-auto text-[11px] text-stone-500 dark:text-stone-400">
-        <span className="font-semibold text-stone-600 dark:text-stone-300 whitespace-nowrap">Try:</span>
+        <span className="font-semibold text-stone-600 dark:text-stone-300 whitespace-nowrap">
+          Try:
+        </span>
         <button
           type="button"
           disabled={isLoading}

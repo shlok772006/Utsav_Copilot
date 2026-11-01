@@ -39,13 +39,7 @@ export const CategorySchema = z.enum([
 export type Category = z.infer<typeof CategorySchema>;
 
 // --- Provenance ---
-export const ProvenanceSchema = z.enum([
-  'user',
-  'derived',
-  'heuristic',
-  'ai',
-  'vendor',
-]);
+export const ProvenanceSchema = z.enum(['user', 'derived', 'heuristic', 'ai', 'vendor']);
 export type Provenance = z.infer<typeof ProvenanceSchema>;
 
 // --- Priority Levels ---
@@ -72,7 +66,10 @@ export const EventStateSchema = z.object({
   occasion: OccasionSchema.optional(),
   totalBudget: z.number().positive().optional(),
   guestCount: z.number().int().positive().optional(),
-  eventDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Must be YYYY-MM-DD').optional(),
+  eventDate: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, 'Must be YYYY-MM-DD')
+    .optional(),
   city: z.string().optional(),
   priorities: z.record(CoreCategorySchema, PriorityLevelSchema).default({
     venue: 3,
@@ -107,12 +104,7 @@ export const BudgetLineSchema = z.object({
 export type BudgetLine = z.infer<typeof BudgetLineSchema>;
 
 // --- Task & Timeline ---
-export const TaskStatusSchema = z.enum([
-  'ready',
-  'blocked',
-  'done',
-  'overdue',
-]);
+export const TaskStatusSchema = z.enum(['ready', 'blocked', 'done', 'overdue']);
 export type TaskStatus = z.infer<typeof TaskStatusSchema>;
 
 export const TaskTemplateSchema = z.object({
@@ -151,11 +143,7 @@ export const WarningCodeSchema = z.enum([
 ]);
 export type WarningCode = z.infer<typeof WarningCodeSchema>;
 
-export const WarningSeveritySchema = z.enum([
-  'info',
-  'warn',
-  'critical',
-]);
+export const WarningSeveritySchema = z.enum(['info', 'warn', 'critical']);
 export type WarningSeverity = z.infer<typeof WarningSeveritySchema>;
 
 export const WarningSchema = z.object({
@@ -186,11 +174,23 @@ export const OpSchema = z.discriminatedUnion('op', [
   z.object({ op: z.literal('scale_guest_count'), factor: z.number() }),
   z.object({ op: z.literal('set_date'), value: z.string() }),
   z.object({ op: z.literal('shift_date_days'), days: z.number() }),
-  z.object({ op: z.literal('set_priority'), category: CoreCategorySchema, level: PriorityLevelSchema }),
+  z.object({
+    op: z.literal('set_priority'),
+    category: CoreCategorySchema,
+    level: PriorityLevelSchema,
+  }),
   z.object({ op: z.literal('lock_category'), category: CoreCategorySchema }),
   z.object({ op: z.literal('unlock_category'), category: CoreCategorySchema }),
-  z.object({ op: z.literal('add_constraint'), kind: z.enum(['dietary', 'accessibility', 'cultural', 'other']), value: z.string() }),
-  z.object({ op: z.literal('remove_constraint'), kind: z.enum(['dietary', 'accessibility', 'cultural', 'other']), value: z.string() }),
+  z.object({
+    op: z.literal('add_constraint'),
+    kind: z.enum(['dietary', 'accessibility', 'cultural', 'other']),
+    value: z.string(),
+  }),
+  z.object({
+    op: z.literal('remove_constraint'),
+    kind: z.enum(['dietary', 'accessibility', 'cultural', 'other']),
+    value: z.string(),
+  }),
   z.object({ op: z.literal('complete_task'), taskId: z.string() }),
 ]);
 export type Op = z.infer<typeof OpSchema>;
@@ -229,7 +229,7 @@ export const PlanDiffSchema = z.object({
       taskId: z.string(),
       from: TaskStatusSchema,
       to: TaskStatusSchema,
-    })
+    }),
   ),
   addedWarnings: z.array(WarningSchema),
   resolvedWarnings: z.array(WarningSchema),

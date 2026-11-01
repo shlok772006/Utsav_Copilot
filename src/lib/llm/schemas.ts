@@ -143,7 +143,10 @@ export function getJsonSchema(schema: z.ZodTypeAny): Record<string, unknown> {
     raw = zodWithToJson.toJSONSchema(schema);
   } else {
     const targetSchema = schema as unknown as Parameters<typeof zodToJsonSchema>[0];
-    const generated = zodToJsonSchema(targetSchema, { $refStrategy: 'none' }) as Record<string, unknown>;
+    const generated = zodToJsonSchema(targetSchema, { $refStrategy: 'none' }) as Record<
+      string,
+      unknown
+    >;
     raw = generated;
   }
 

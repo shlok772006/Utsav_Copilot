@@ -1,13 +1,5 @@
 import { daysBetween } from './timeline';
-import {
-  Category,
-  CategoryDiff,
-  Plan,
-  PlanDiff,
-  TaskDiff,
-  TaskStatus,
-  Warning,
-} from './types';
+import { Category, CategoryDiff, Plan, PlanDiff, TaskDiff, TaskStatus, Warning } from './types';
 
 /**
  * Pure domain differential engine (Plan Comparison & Diff Taxonomy).
@@ -56,7 +48,9 @@ export function diffPlans(before: Plan, after: Plan): PlanDiff {
 
   // 2. Shifted tasks & status changes
   const beforeTasks = new Map<string, { deadline: string; status: TaskStatus; title: string }>();
-  before.tasks.forEach((t) => beforeTasks.set(t.id, { deadline: t.deadline, status: t.status, title: t.title }));
+  before.tasks.forEach((t) =>
+    beforeTasks.set(t.id, { deadline: t.deadline, status: t.status, title: t.title }),
+  );
 
   const shiftedTasks: TaskDiff[] = [];
   const statusChanges: Array<{ taskId: string; from: TaskStatus; to: TaskStatus }> = [];

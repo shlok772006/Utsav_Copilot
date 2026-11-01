@@ -149,7 +149,7 @@ export interface TimelineResult {
 export function scheduleTasks(
   state: EventState,
   today: string,
-  customTemplates?: TaskTemplate[]
+  customTemplates?: TaskTemplate[],
 ): TimelineResult {
   const rawTemplates = customTemplates || TASK_TEMPLATES;
   const occasion = state.occasion;

@@ -12,7 +12,7 @@ export type PromptId = 'intake' | 'change' | 'advise' | 'ideas' | 'quote';
 export function loadPrompt(
   promptId: PromptId,
   variables: Record<string, unknown>,
-  version = 'v1'
+  version = 'v1',
 ): string {
   const filePath = path.join(process.cwd(), 'prompts', `${promptId}.${version}.md`);
 

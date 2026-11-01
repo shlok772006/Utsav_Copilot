@@ -29,7 +29,7 @@ export class FakeLlmClient implements LlmClient {
   async generateStructured(
     prompt: string,
     jsonSchema: Record<string, unknown>,
-    options?: StructuredGenerationOptions
+    options?: StructuredGenerationOptions,
   ): Promise<string> {
     this.calls.push({ prompt, jsonSchema, options });
 

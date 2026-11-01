@@ -54,7 +54,8 @@ export const VendorsTab: React.FC = () => {
           Vendor Comparator Not Initialized
         </h3>
         <p className="text-xs text-stone-500 dark:text-stone-400 max-w-sm mt-1">
-          Set up your event in the chat or load the sample event above to start extracting, normalizing, and comparing vendor quotes side by side.
+          Set up your event in the chat or load the sample event above to start extracting,
+          normalizing, and comparing vendor quotes side by side.
         </p>
       </section>
     );
@@ -114,8 +115,7 @@ export const VendorsTab: React.FC = () => {
                   : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200'
               }`}
             >
-              {CATEGORY_NAMES[cat] || cat} (
-              {quotes.filter((q) => q.category === cat).length})
+              {CATEGORY_NAMES[cat] || cat} ({quotes.filter((q) => q.category === cat).length})
             </button>
           ))}
         </div>
@@ -128,7 +128,8 @@ export const VendorsTab: React.FC = () => {
               No quotes added {selectedCategory !== 'all' ? `for ${selectedCategory}` : ''}
             </h3>
             <p className="text-xs text-stone-500 max-w-xs mx-auto">
-              Paste raw quotes from WhatsApp or emails to calculate true costs, compare per-guest rates, and identify missing clauses.
+              Paste raw quotes from WhatsApp or emails to calculate true costs, compare per-guest
+              rates, and identify missing clauses.
             </p>
             <button
               type="button"
@@ -231,16 +232,16 @@ export const VendorsTab: React.FC = () => {
                         ⚠️ Ambiguities / Not Stated in Quote:
                       </span>
                       <div className="flex flex-wrap gap-1.5">
-                        {Array.from(new Set([...extraction.missing, ...normalized.missingFields])).map(
-                          (field, fIdx) => (
-                            <span
-                              key={fIdx}
-                              className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200 border border-amber-300 dark:border-amber-800"
-                            >
-                              Not stated: {field}
-                            </span>
-                          )
-                        )}
+                        {Array.from(
+                          new Set([...extraction.missing, ...normalized.missingFields]),
+                        ).map((field, fIdx) => (
+                          <span
+                            key={fIdx}
+                            className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200 border border-amber-300 dark:border-amber-800"
+                          >
+                            Not stated: {field}
+                          </span>
+                        ))}
                       </div>
                     </div>
                   )}
@@ -268,7 +269,8 @@ export const VendorsTab: React.FC = () => {
                       <strong className="text-rose-800 dark:text-rose-400 block text-[11px] mb-1">
                         ✕ Exclusions / Extras:
                       </strong>
-                      {extraction.exclusions.length === 0 && extraction.additionalCharges.length === 0 ? (
+                      {extraction.exclusions.length === 0 &&
+                      extraction.additionalCharges.length === 0 ? (
                         <span className="text-stone-400 text-[11px]">None stated</span>
                       ) : (
                         <ul className="space-y-0.5 text-[11px] text-stone-600 dark:text-stone-300">
@@ -289,7 +291,9 @@ export const VendorsTab: React.FC = () => {
                   <div className="text-[11px] text-stone-500 dark:text-stone-400 space-y-0.5 pt-1 border-t border-stone-200/60 dark:border-stone-800">
                     <div>
                       <strong>Payment Terms:</strong>{' '}
-                      {extraction.paymentTerms || <span className="text-amber-700 font-semibold">Not stated</span>}
+                      {extraction.paymentTerms || (
+                        <span className="text-amber-700 font-semibold">Not stated</span>
+                      )}
                     </div>
                     {extraction.validity && (
                       <div>
@@ -315,7 +319,8 @@ export const VendorsTab: React.FC = () => {
                   Questions to Ask Vendors Before Booking
                 </h3>
                 <p className="text-[11px] text-amber-900/80 dark:text-amber-300/80">
-                  Curated questions to protect your family from surprise charges and day-of-event chaos
+                  Curated questions to protect your family from surprise charges and day-of-event
+                  chaos
                 </p>
               </div>
             </div>
@@ -362,10 +367,7 @@ export const VendorsTab: React.FC = () => {
       </div>
 
       {/* Quote Paste Modal */}
-      <QuotePasteModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      <QuotePasteModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 };

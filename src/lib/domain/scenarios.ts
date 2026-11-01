@@ -42,13 +42,21 @@ export function generateScenarios(state: EventState, plan: Plan): Scenario[] {
   }
 
   // --- Lever 2: Rebalance toward priorities ---
-  const unlocked = (['venue', 'catering', 'decor', 'photography', 'attire', 'entertainment', 'invitations_misc', 'logistics'] as CoreCategory[])
-    .filter((c) => !(state.lockedCategories || []).includes(c));
+  const unlocked = (
+    [
+      'venue',
+      'catering',
+      'decor',
+      'photography',
+      'attire',
+      'entertainment',
+      'invitations_misc',
+      'logistics',
+    ] as CoreCategory[]
+  ).filter((c) => !(state.lockedCategories || []).includes(c));
 
   if (unlocked.includes('catering') && activeWarningCodes.has('LOW_PER_GUEST_CATERING')) {
-    const rebalanceOps: Op[] = [
-      { op: 'set_priority', category: 'catering', level: 5 },
-    ];
+    const rebalanceOps: Op[] = [{ op: 'set_priority', category: 'catering', level: 5 }];
     if (unlocked.includes('invitations_misc')) {
       rebalanceOps.push({ op: 'set_priority', category: 'invitations_misc', level: 1 });
     }

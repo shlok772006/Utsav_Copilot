@@ -15,11 +15,7 @@ import { CoreCategory, EventState, NormalizedQuote, Plan, RawQuote, Warning } fr
  * @param plan - The active Plan (providing the target category budget line for delta calculation).
  * @returns A NormalizedQuote with calculated total, per-guest rate, delta vs budget line, and warning triggers.
  */
-export function normalizeQuote(
-  raw: RawQuote,
-  state: EventState,
-  plan: Plan
-): NormalizedQuote {
+export function normalizeQuote(raw: RawQuote, state: EventState, plan: Plan): NormalizedQuote {
   const missingFields: string[] = [];
   const warnings: Warning[] = [];
 

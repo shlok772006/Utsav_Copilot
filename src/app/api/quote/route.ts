@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
       429,
       'RATE_LIMITED',
       `Rate limit exceeded. Please wait ${Math.ceil(rateLimit.resetMs / 1000)}s before retrying.`,
-      true
+      true,
     );
   }
 
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
         raw_quote_text: body.rawText,
       },
       QuoteExtractionOutputSchema,
-      { temperature: 0.1 }
+      { temperature: 0.1 },
     );
 
     return NextResponse.json({

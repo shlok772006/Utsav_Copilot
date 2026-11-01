@@ -8,10 +8,7 @@ interface HeaderProps {
   onViewChange?: (view: 'landing' | 'planner') => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({
-  currentView = 'planner',
-  onViewChange,
-}) => {
+export const Header: React.FC<HeaderProps> = ({ currentView = 'planner', onViewChange }) => {
   const { history, undo, loadSampleEvent, resetEvent } = useEventStore();
   const canUndo = history.length > 0;
 
@@ -88,7 +85,9 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={undo}
             disabled={!canUndo}
             className="px-3 py-1.5 text-xs font-medium text-stone-700 dark:text-stone-300 bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 border border-stone-200 dark:border-stone-700 rounded-lg transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5"
-            title={canUndo ? `Undo last action (${history.length} snapshots)` : 'No actions to undo'}
+            title={
+              canUndo ? `Undo last action (${history.length} snapshots)` : 'No actions to undo'
+            }
             aria-label={`Undo last action (${history.length} snapshots available)`}
           >
             <span aria-hidden="true">↺</span>

@@ -19,7 +19,9 @@ describe('BudgetTab Component', () => {
     render(<BudgetTab />);
 
     // Header check
-    expect(screen.getByRole('heading', { level: 2, name: /Budget Allocation Breakdown/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: /Budget Allocation Breakdown/i }),
+    ).toBeInTheDocument();
     expect(screen.getByText(/Total ₹3,00,000/i)).toBeInTheDocument();
 
     // Check categories

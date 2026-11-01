@@ -72,7 +72,8 @@ export const TimelineTab: React.FC = () => {
           Timeline Not Initialized
         </h3>
         <p className="text-xs text-stone-500 dark:text-stone-400 max-w-sm mt-1">
-          Provide your event date and occasion in the chat or load the sample event above to generate a dependency-ordered critical path schedule.
+          Provide your event date and occasion in the chat or load the sample event above to
+          generate a dependency-ordered critical path schedule.
         </p>
       </section>
     );
@@ -95,7 +96,8 @@ export const TimelineTab: React.FC = () => {
             <ProvenanceBadge provenance="heuristic" />
           </div>
           <p className="text-xs text-stone-500 dark:text-stone-400">
-            {daysAvailable >= 0 ? `${daysAvailable} days available` : 'Event in past'} · Critical path: {criticalPathDays} days · {tasks.length} total milestones
+            {daysAvailable >= 0 ? `${daysAvailable} days available` : 'Event in past'} · Critical
+            path: {criticalPathDays} days · {tasks.length} total milestones
           </p>
         </div>
 
@@ -129,7 +131,10 @@ export const TimelineTab: React.FC = () => {
                 Compressed Timeline Warning
               </h3>
               <p className="text-rose-800 dark:text-rose-300/90 leading-relaxed">
-                You have <strong>{daysAvailable} days</strong> until the event, but standard Indian celebration planning suggests a critical path of <strong>{criticalPathDays} days</strong>. Multiple preparation tasks must run concurrently. Prioritize vendor confirmations immediately.
+                You have <strong>{daysAvailable} days</strong> until the event, but standard Indian
+                celebration planning suggests a critical path of{' '}
+                <strong>{criticalPathDays} days</strong>. Multiple preparation tasks must run
+                concurrently. Prioritize vendor confirmations immediately.
               </p>
             </div>
           </div>
@@ -200,10 +205,10 @@ export const TimelineTab: React.FC = () => {
                     isCompleted
                       ? 'bg-stone-50/50 dark:bg-stone-800/20 border-stone-200 dark:border-stone-800 opacity-60'
                       : t.status === 'ready'
-                      ? 'bg-emerald-50/30 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/70 shadow-xs'
-                      : t.status === 'overdue'
-                      ? 'bg-rose-50/40 dark:bg-rose-950/20 border-rose-300 dark:border-rose-800'
-                      : 'bg-stone-50/40 dark:bg-stone-800/40 border-stone-200 dark:border-stone-800'
+                        ? 'bg-emerald-50/30 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/70 shadow-xs'
+                        : t.status === 'overdue'
+                          ? 'bg-rose-50/40 dark:bg-rose-950/20 border-rose-300 dark:border-rose-800'
+                          : 'bg-stone-50/40 dark:bg-stone-800/40 border-stone-200 dark:border-stone-800'
                   }`}
                 >
                   <div className="flex items-start gap-3">
@@ -226,9 +231,7 @@ export const TimelineTab: React.FC = () => {
                           <span className="text-base" aria-hidden="true">
                             {icon}
                           </span>
-                          <span className="text-[11px] font-mono text-stone-400">
-                            #{index + 1}
-                          </span>
+                          <span className="text-[11px] font-mono text-stone-400">#{index + 1}</span>
                           <label
                             htmlFor={`task-check-${t.id}`}
                             className={`text-sm font-bold cursor-pointer transition-colors ${
@@ -256,10 +259,16 @@ export const TimelineTab: React.FC = () => {
                       {/* Meta: Duration, Deadline & Dependencies */}
                       <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-stone-500 dark:text-stone-400">
                         <span>
-                          ⏱️ Duration: <strong className="text-stone-700 dark:text-stone-300">{t.durationDays} {t.durationDays === 1 ? 'day' : 'days'}</strong>
+                          ⏱️ Duration:{' '}
+                          <strong className="text-stone-700 dark:text-stone-300">
+                            {t.durationDays} {t.durationDays === 1 ? 'day' : 'days'}
+                          </strong>
                         </span>
                         <span>
-                          📅 Deadline: <strong className="text-stone-700 dark:text-stone-300">{formatDateDisplay(t.deadline)}</strong>
+                          📅 Deadline:{' '}
+                          <strong className="text-stone-700 dark:text-stone-300">
+                            {formatDateDisplay(t.deadline)}
+                          </strong>
                         </span>
                       </div>
 

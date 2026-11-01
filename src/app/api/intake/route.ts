@@ -9,12 +9,14 @@ import { EventStateSchema } from '@/lib/domain/types';
 
 const IntakeRequestSchema = z.object({
   state: EventStateSchema,
-  messages: z.array(
-    z.object({
-      role: z.enum(['user', 'assistant']),
-      content: z.string(),
-    })
-  ).min(1),
+  messages: z
+    .array(
+      z.object({
+        role: z.enum(['user', 'assistant']),
+        content: z.string(),
+      }),
+    )
+    .min(1),
 });
 
 /**
@@ -41,7 +43,7 @@ export async function POST(req: NextRequest) {
       429,
       'RATE_LIMITED',
       `Rate limit exceeded. Please wait ${Math.ceil(rateLimit.resetMs / 1000)}s before retrying.`,
-      true
+      true,
     );
   }
 
@@ -67,7 +69,7 @@ export async function POST(req: NextRequest) {
         latest_user_message: latestUserMessage,
       },
       IntakeOutputSchema,
-      { temperature: 0.1 }
+      { temperature: 0.1 },
     );
 
     return NextResponse.json({

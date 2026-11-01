@@ -9,10 +9,7 @@ interface LandingPageProps {
   onLaunchPlanner: () => void;
 }
 
-export const LandingPage: React.FC<LandingPageProps> = ({
-  onOpenService,
-  onLaunchPlanner,
-}) => {
+export const LandingPage: React.FC<LandingPageProps> = ({ onOpenService, onLaunchPlanner }) => {
   const { loadSampleEvent } = useEventStore();
 
   const handleLoadSampleAndLaunch = () => {
@@ -177,8 +174,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <p className="text-base sm:text-lg text-stone-300 max-w-2xl mx-auto mb-10 leading-relaxed font-normal">
             From 500-guest Jaipur palace weddings to intimate 25th anniversary celebrations.
             Describe your vision in natural conversation — our AI structures your needs while
-            rigorous domain algorithms compute per-plate catering, critical-path timelines,
-            and quote comparisons.
+            rigorous domain algorithms compute per-plate catering, critical-path timelines, and
+            quote comparisons.
           </p>
 
           {/* Call to Actions */}
@@ -234,7 +231,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             Five Purpose-Built Services for Indian Events
           </h2>
           <p className="text-sm sm:text-base text-stone-600 dark:text-stone-400 mt-3">
-            Every tool links directly to our pure TypeScript domain engine. Click any service to jump into action.
+            Every tool links directly to our pure TypeScript domain engine. Click any service to
+            jump into action.
           </p>
         </div>
 
@@ -328,7 +326,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             Tailored to Every Indian Family Milestone
           </h2>
           <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400 mt-2">
-            Each celebration type brings calibrated budget shares, task templates, and cultural sensitivity.
+            Each celebration type brings calibrated budget shares, task templates, and cultural
+            sensitivity.
           </p>
         </div>
 
@@ -380,8 +379,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 Code Calculates, AI Explains
               </div>
               <p className="leading-relaxed">
-                The language model never performs arithmetic or dates. All rupee calculations, per-head
-                metrics, and deadline countdowns run in verifiable TypeScript code.
+                The language model never performs arithmetic or dates. All rupee calculations,
+                per-head metrics, and deadline countdowns run in verifiable TypeScript code.
               </p>
             </div>
 
@@ -390,7 +389,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 Five Provenance Badges
               </div>
               <p className="leading-relaxed">
-                Every number displayed is tagged: <em>Your Input</em>, <em>Derived</em>, <em>Heuristic</em>, <em>AI Estimate</em>, or <em>Vendor Quote</em>. You always know where a rupee comes from.
+                Every number displayed is tagged: <em>Your Input</em>, <em>Derived</em>,{' '}
+                <em>Heuristic</em>, <em>AI Estimate</em>, or <em>Vendor Quote</em>. You always know
+                where a rupee comes from.
               </p>
             </div>
 
@@ -399,8 +400,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 Instant Undo & Diff Modals
               </div>
               <p className="leading-relaxed">
-                Replan with complete peace of mind. Every change presents an itemized side-by-side diff
-                and tradeoffs before applying, backed by a persistent multi-step undo stack.
+                Replan with complete peace of mind. Every change presents an itemized side-by-side
+                diff and tradeoffs before applying, backed by a persistent multi-step undo stack.
               </p>
             </div>
           </div>

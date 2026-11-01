@@ -34,7 +34,7 @@ export function createErrorResponse(
   code: ApiErrorCode,
   message: string,
   retryable = false,
-  details?: string[]
+  details?: string[],
 ): NextResponse<ApiErrorResponse> {
   return NextResponse.json(
     {
@@ -45,7 +45,7 @@ export function createErrorResponse(
         details,
       },
     },
-    { status }
+    { status },
   );
 }
 

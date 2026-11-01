@@ -101,6 +101,8 @@ describe('VendorsTab Component', () => {
       expect(screen.getByText('Golden Mandap Decorators')).toBeInTheDocument();
     });
 
-    expect(useEventStore.getState().quotes.some((q) => q.vendorName === 'Golden Mandap Decorators')).toBe(true);
+    expect(
+      useEventStore.getState().quotes.some((q) => q.vendorName === 'Golden Mandap Decorators'),
+    ).toBe(true);
   });
 });

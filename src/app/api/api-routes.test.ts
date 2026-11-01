@@ -19,7 +19,11 @@ describe('API Routes Integration & Security', () => {
     setDefaultLlmClient(fakeClient);
   });
 
-  function createNextRequest(url: string, body: unknown, headers: Record<string, string> = {}): NextRequest {
+  function createNextRequest(
+    url: string,
+    body: unknown,
+    headers: Record<string, string> = {},
+  ): NextRequest {
     const jsonString = JSON.stringify(body);
     return new NextRequest(new URL(url, 'http://localhost:3000'), {
       method: 'POST',
@@ -59,9 +63,7 @@ describe('API Routes Integration & Security', () => {
   });
 
   it('enforces rate limit returning 429 RATE_LIMITED after max requests', async () => {
-    fakeClient.queueResponses(
-      Array(25).fill(JSON.stringify({ ops: [], clarification: null }))
-    );
+    fakeClient.queueResponses(Array(25).fill(JSON.stringify({ ops: [], clarification: null })));
 
     const validBody = {
       state: createTestEventState(),
@@ -93,7 +95,7 @@ describe('API Routes Integration & Security', () => {
         date_hint: 'in 5 weeks',
         assistantMessage: 'Understood. A budget of ₹3 Lakhs has been recorded.',
         readyToPlan: false,
-      })
+      }),
     );
 
     const req = createNextRequest('http://localhost:3000/api/intake', {
@@ -114,7 +116,7 @@ describe('API Routes Integration & Security', () => {
       JSON.stringify({
         ops: [{ op: 'scale_budget', factor: 0.5 }],
         clarification: null,
-      })
+      }),
     );
 
     const req = createNextRequest('http://localhost:3000/api/change', {
@@ -142,7 +144,7 @@ describe('API Routes Integration & Security', () => {
           },
         ],
         recommendedScenarioId: 'trim-guests',
-      })
+      }),
     );
 
     const req = createNextRequest('http://localhost:3000/api/advise', {
@@ -204,7 +206,7 @@ describe('API Routes Integration & Security', () => {
             firstThreeSteps: ['Decor vendor', 'Musicians', 'Lighting grid'],
           },
         ],
-      })
+      }),
     );
 
     const req = createNextRequest('http://localhost:3000/api/ideas', {
@@ -248,7 +250,7 @@ describe('API Routes Integration & Security', () => {
           'Is 18% GST extra on the final bill?',
           'Are service staff uniforms and crockery provided?',
         ],
-      })
+      }),
     );
 
     const req = createNextRequest('http://localhost:3000/api/quote', {

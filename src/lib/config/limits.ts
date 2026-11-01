@@ -25,12 +25,7 @@ export const GUEST_LIMITS = {
   max: 2000,
 } as const;
 
-export const GUEST_DRIVEN_CATEGORIES = [
-  'venue',
-  'catering',
-  'decor',
-  'logistics',
-] as const;
+export const GUEST_DRIVEN_CATEGORIES = ['venue', 'catering', 'decor', 'logistics'] as const;
 
 export const LOW_CATERING_PER_GUEST_THRESHOLD = 400;
 

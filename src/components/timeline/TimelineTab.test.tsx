@@ -20,11 +20,15 @@ describe('TimelineTab Component', () => {
     render(<TimelineTab />);
 
     // Header checks
-    expect(screen.getByRole('heading', { level: 2, name: /Timeline & Task Critical Path/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: /Timeline & Task Critical Path/i }),
+    ).toBeInTheDocument();
     expect(screen.getByText(/Critical path:/i)).toBeInTheDocument();
 
     // Check that some tasks are rendered
-    expect(screen.getAllByText(/Draft initial guest list and headcounts/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Draft initial guest list and headcounts/i).length).toBeGreaterThan(
+      0,
+    );
     expect(screen.getAllByText(/Fix event date and muhurat/i).length).toBeGreaterThan(0);
 
     // Provenance badges present
@@ -87,6 +91,8 @@ describe('TimelineTab Component', () => {
     const allFilterBtn = screen.getByRole('button', { name: /All Tasks/i });
     fireEvent.click(allFilterBtn);
 
-    expect(screen.getAllByText(/Draft initial guest list and headcounts/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Draft initial guest list and headcounts/i).length).toBeGreaterThan(
+      0,
+    );
   });
 });

@@ -18,7 +18,7 @@ export const BUDGET_BASE_SHARES: Record<Occasion, Record<CoreCategory, number>> 
   },
   reception: {
     venue: 0.25,
-    catering: 0.40,
+    catering: 0.4,
     decor: 0.14,
     photography: 0.07,
     attire: 0.05,
@@ -27,8 +27,8 @@ export const BUDGET_BASE_SHARES: Record<Occasion, Record<CoreCategory, number>> 
     logistics: 0.03,
   },
   sangeet: {
-    venue: 0.20,
-    catering: 0.30,
+    venue: 0.2,
+    catering: 0.3,
     decor: 0.15,
     photography: 0.07,
     attire: 0.08,
@@ -37,7 +37,7 @@ export const BUDGET_BASE_SHARES: Record<Occasion, Record<CoreCategory, number>> 
     logistics: 0.04,
   },
   anniversary: {
-    venue: 0.20,
+    venue: 0.2,
     catering: 0.38,
     decor: 0.12,
     photography: 0.08,
@@ -47,12 +47,12 @@ export const BUDGET_BASE_SHARES: Record<Occasion, Record<CoreCategory, number>> 
     logistics: 0.07,
   },
   birthday: {
-    venue: 0.20,
+    venue: 0.2,
     catering: 0.35,
     decor: 0.18,
     photography: 0.06,
     attire: 0.04,
-    entertainment: 0.10,
+    entertainment: 0.1,
     invitations_misc: 0.03,
     logistics: 0.04,
   },
@@ -79,6 +79,7 @@ export const BUDGET_BASE_SHARES: Record<Occasion, Record<CoreCategory, number>> 
 };
 
 export function getBaseShares(occasion?: Occasion): Record<CoreCategory, number> {
-  const selectedOccasion: Occasion = occasion && occasion in BUDGET_BASE_SHARES ? occasion : 'general';
+  const selectedOccasion: Occasion =
+    occasion && occasion in BUDGET_BASE_SHARES ? occasion : 'general';
   return { ...BUDGET_BASE_SHARES[selectedOccasion] };
 }

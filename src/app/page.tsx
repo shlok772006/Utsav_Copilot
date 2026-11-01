@@ -31,7 +31,7 @@ export default function Home() {
   const { plan, quotes } = useEventStore();
 
   const budgetWarningsCount = (plan?.warnings || []).filter(
-    (w) => w.code === 'LOW_PER_GUEST_CATERING' || w.code === 'HIGH_PER_HEAD_VENUE'
+    (w) => w.code === 'LOW_PER_GUEST_CATERING' || w.code === 'HIGH_PER_HEAD_VENUE',
   ).length;
 
   const tabsConfig: TabItem[] = [
@@ -73,7 +73,9 @@ export default function Home() {
   };
 
   const handleReplanApplied = () => {
-    setToastMessage('Plan revision applied! Click "Undo" above anytime to restore your previous plan.');
+    setToastMessage(
+      'Plan revision applied! Click "Undo" above anytime to restore your previous plan.',
+    );
     setTimeout(() => setToastMessage(null), 8000);
   };
 
@@ -124,11 +126,7 @@ export default function Home() {
             />
 
             {/* Dashboard Tabs */}
-            <Tabs
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-              tabs={tabsConfig}
-            />
+            <Tabs activeTab={activeTab} onTabChange={setActiveTab} tabs={tabsConfig} />
 
             {/* Main Interactive Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">

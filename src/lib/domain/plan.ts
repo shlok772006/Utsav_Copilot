@@ -1,7 +1,4 @@
-import {
-  HIGH_VENUE_SHARE_THRESHOLD,
-  LOW_CATERING_PER_GUEST_THRESHOLD,
-} from '../config/limits';
+import { HIGH_VENUE_SHARE_THRESHOLD, LOW_CATERING_PER_GUEST_THRESHOLD } from '../config/limits';
 import { allocateBudget } from './budget';
 import { scheduleTasks } from './timeline';
 import { EventState, Plan, Warning } from './types';
@@ -76,7 +73,10 @@ export function buildPlan(state: EventState, today: string): Plan {
 
   // 5. Domain Warning: COMPRESSED_SCHEDULE
   if (compressed) {
-    const criticalChain = tasks.filter((t) => t.status !== 'done').slice(0, 3).map((t) => t.title);
+    const criticalChain = tasks
+      .filter((t) => t.status !== 'done')
+      .slice(0, 3)
+      .map((t) => t.title);
     warnings.push({
       code: 'COMPRESSED_SCHEDULE',
       severity: 'warn',

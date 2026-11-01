@@ -46,7 +46,8 @@ describe('ReplanDiffModal Component', () => {
         },
       ],
       advice: {
-        summary: 'Budget decreased by ₹1 Lakh. We recommend trimming guests to preserve food quality.',
+        summary:
+          'Budget decreased by ₹1 Lakh. We recommend trimming guests to preserve food quality.',
         options: [
           { scenarioId: 'direct-change', analysis: 'Risks poor food experience.' },
           { scenarioId: 'trim-guests', analysis: 'Preserves good guest experience.' },
@@ -108,12 +109,7 @@ describe('ReplanDiffModal Component', () => {
     const onApplied = vi.fn();
 
     render(
-      <ReplanDiffModal
-        payload={payload}
-        isOpen={true}
-        onClose={onClose}
-        onApplied={onApplied}
-      />
+      <ReplanDiffModal payload={payload} isOpen={true} onClose={onClose} onApplied={onApplied} />,
     );
 
     // Apply button

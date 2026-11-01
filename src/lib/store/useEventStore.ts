@@ -4,7 +4,14 @@ import { addDays, formatISODate } from '../domain/timeline';
 import { applyOps } from '../domain/ops';
 import { buildPlan } from '../domain/plan';
 import { ConceptIdea, QuoteExtractionOutput } from '../llm/schemas';
-import { CoreCategory, EventState, EventStateSchema, NormalizedQuote, Op, Plan } from '../domain/types';
+import {
+  CoreCategory,
+  EventState,
+  EventStateSchema,
+  NormalizedQuote,
+  Op,
+  Plan,
+} from '../domain/types';
 import { MAX_HISTORY_SNAPSHOTS } from '../config/limits';
 
 export interface HistoryEntry {
@@ -107,7 +114,7 @@ export function createSampleEventState(today: string = getTodayIso()): EventStat
     priorities: {
       venue: 3,
       catering: 5, // Food is most important
-      decor: 2,    // Simple decor
+      decor: 2, // Simple decor
       photography: 3,
       attire: 3,
       entertainment: 3,
@@ -220,9 +227,11 @@ export const SAMPLE_CONCEPTS: ConceptIdea[] = [
   {
     name: 'Silver Jubilee Royal Feast & Nostalgia Courtyard',
     vibe: 'Warm, golden celebration honoring 25 years with traditional Pune flavors and family storytelling.',
-    whereMoneyGoes: 'Largest allocation into multi-course Maharashtrian & North Indian feast with live jalebi counter; elegant marigold floral backdrop.',
+    whereMoneyGoes:
+      'Largest allocation into multi-course Maharashtrian & North Indian feast with live jalebi counter; elegant marigold floral backdrop.',
     costLevel: 'similar',
-    comfortNotes: 'Ground-floor banquet seating with cushioned armchairs for grandparents; separate quiet corner for elder conversations.',
+    comfortNotes:
+      'Ground-floor banquet seating with cushioned armchairs for grandparents; separate quiet corner for elder conversations.',
     risks: 'Live counters can create bottlenecks if queue flow is not designated clearly.',
     firstThreeSteps: [
       'Confirm caterer menu tasting session for parents',
@@ -233,9 +242,11 @@ export const SAMPLE_CONCEPTS: ConceptIdea[] = [
   {
     name: 'Intimate Candlelit Garden Soirée',
     vibe: 'Cozy evening with ambient fairy lights, acoustic vintage melodies, and plated dessert service.',
-    whereMoneyGoes: 'Emphasis on ambient string lighting, open lawn permissions, and cinematic candid photography.',
+    whereMoneyGoes:
+      'Emphasis on ambient string lighting, open lawn permissions, and cinematic candid photography.',
     costLevel: 'lower',
-    comfortNotes: 'Paved walkways ensure smooth walking for elders; mosquito repellent fogging done 2 hours before.',
+    comfortNotes:
+      'Paved walkways ensure smooth walking for elders; mosquito repellent fogging done 2 hours before.',
     risks: 'Outdoor evening events need an immediate indoor monsoon/wind contingency shelter.',
     firstThreeSteps: [
       'Check garden lawn curfew timings and sound permissions',
@@ -246,9 +257,11 @@ export const SAMPLE_CONCEPTS: ConceptIdea[] = [
   {
     name: 'Grand Darbar Heritage Gala',
     vibe: 'Lavish regal setup with royal Rajasthani shamiana, brass flower urli decorations, and live Shehnai / flute welcome.',
-    whereMoneyGoes: 'Higher decor share with traditional brass artifacts, heavy marigold floral chandeliers, and live musicians.',
+    whereMoneyGoes:
+      'Higher decor share with traditional brass artifacts, heavy marigold floral chandeliers, and live musicians.',
     costLevel: 'higher',
-    comfortNotes: 'Wide central aisles for easy navigation; reserved front-row sofa seating for parents and elderly relatives.',
+    comfortNotes:
+      'Wide central aisles for easy navigation; reserved front-row sofa seating for parents and elderly relatives.',
     risks: 'High decor complexity requires at least 8 hours of prior venue setup time.',
     firstThreeSteps: [
       'Shortlist heritage style banquet lawns with early setup access',
@@ -354,7 +367,7 @@ export const useEventStore = create<EventStoreState>()(
               id: `sample-bot-${Date.now()}`,
               role: 'assistant',
               content:
-                "Wonderful milestone! I have structured your ₹3 Lakh anniversary celebration for 60 guests in Pune, prioritizing catering quality (₹2,500/guest) and ground-floor accessibility for elders. Review your plan details on the right.",
+                'Wonderful milestone! I have structured your ₹3 Lakh anniversary celebration for 60 guests in Pune, prioritizing catering quality (₹2,500/guest) and ground-floor accessibility for elders. Review your plan details on the right.',
               timestamp: Date.now() + 100,
             },
           ],
@@ -377,7 +390,12 @@ export const useEventStore = create<EventStoreState>()(
         set((prev) => ({
           chatMessages: [
             ...prev.chatMessages,
-            { id: `msg-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`, role, content, timestamp: Date.now() },
+            {
+              id: `msg-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+              role,
+              content,
+              timestamp: Date.now(),
+            },
           ],
         }));
       },
@@ -411,6 +429,6 @@ export const useEventStore = create<EventStoreState>()(
           hydratedState.plan = buildPlan(parseResult.data, getTodayIso());
         }
       },
-    }
-  )
+    },
+  ),
 );

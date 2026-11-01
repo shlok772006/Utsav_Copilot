@@ -72,7 +72,7 @@ export const BudgetTab: React.FC = () => {
   };
 
   const budgetWarnings = (plan?.warnings || []).filter(
-    (w) => w.code === 'LOW_PER_GUEST_CATERING' || w.code === 'HIGH_PER_HEAD_VENUE'
+    (w) => w.code === 'LOW_PER_GUEST_CATERING' || w.code === 'HIGH_PER_HEAD_VENUE',
   );
 
   const contingencyLine = budgetLines.find((b) => b.category === 'contingency');
@@ -88,7 +88,8 @@ export const BudgetTab: React.FC = () => {
           Budget Not Initialized
         </h3>
         <p className="text-xs text-stone-500 dark:text-stone-400 max-w-sm mt-1">
-          Tell the assistant your total budget in the intake chat or click &quot;Load Sample Event&quot; above to view the full allocation breakdown.
+          Tell the assistant your total budget in the intake chat or click &quot;Load Sample
+          Event&quot; above to view the full allocation breakdown.
         </p>
       </section>
     );
@@ -173,7 +174,7 @@ export const BudgetTab: React.FC = () => {
               const percent = Math.round(line.share * 100);
               const currentPrio = state.priorities?.[cat] || 3;
               const isGuestDriven = GUEST_DRIVEN_CATEGORIES.includes(
-                cat as (typeof GUEST_DRIVEN_CATEGORIES)[number]
+                cat as (typeof GUEST_DRIVEN_CATEGORIES)[number],
               );
 
               return (
@@ -183,8 +184,8 @@ export const BudgetTab: React.FC = () => {
                     isLocked
                       ? 'bg-amber-50/40 dark:bg-amber-950/20 border-amber-300/80 dark:border-amber-800/80 shadow-xs'
                       : isContingency
-                      ? 'bg-stone-50/70 dark:bg-stone-800/30 border-dashed border-stone-300 dark:border-stone-700'
-                      : 'bg-stone-50/50 dark:bg-stone-800/40 border-stone-200/80 dark:border-stone-800 hover:border-stone-300 dark:hover:border-stone-700'
+                        ? 'bg-stone-50/70 dark:bg-stone-800/30 border-dashed border-stone-300 dark:border-stone-700'
+                        : 'bg-stone-50/50 dark:bg-stone-800/40 border-stone-200/80 dark:border-stone-800 hover:border-stone-300 dark:hover:border-stone-700'
                   }`}
                 >
                   {/* Top Line: Title, Provenance, Lock & Amount */}
@@ -240,8 +241,8 @@ export const BudgetTab: React.FC = () => {
                         isLocked
                           ? 'bg-amber-600'
                           : isContingency
-                          ? 'bg-stone-500'
-                          : 'bg-linear-to-r from-amber-500 to-rose-500'
+                            ? 'bg-stone-500'
+                            : 'bg-linear-to-r from-amber-500 to-rose-500'
                       }`}
                       style={{ width: `${Math.min(100, Math.max(2, percent))}%` }}
                     />
@@ -304,13 +305,27 @@ export const BudgetTab: React.FC = () => {
             <table className="w-full text-left text-xs text-stone-700 dark:text-stone-300">
               <thead className="bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-stone-100 font-semibold border-b border-stone-200 dark:border-stone-700">
                 <tr>
-                  <th scope="col" className="p-3">Category</th>
-                  <th scope="col" className="p-3">Share %</th>
-                  <th scope="col" className="p-3">Total Amount</th>
-                  <th scope="col" className="p-3">Per Guest</th>
-                  <th scope="col" className="p-3">Priority</th>
-                  <th scope="col" className="p-3">Status</th>
-                  <th scope="col" className="p-3">Provenance</th>
+                  <th scope="col" className="p-3">
+                    Category
+                  </th>
+                  <th scope="col" className="p-3">
+                    Share %
+                  </th>
+                  <th scope="col" className="p-3">
+                    Total Amount
+                  </th>
+                  <th scope="col" className="p-3">
+                    Per Guest
+                  </th>
+                  <th scope="col" className="p-3">
+                    Priority
+                  </th>
+                  <th scope="col" className="p-3">
+                    Status
+                  </th>
+                  <th scope="col" className="p-3">
+                    Provenance
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-stone-200 dark:divide-stone-800 bg-white dark:bg-stone-900">
@@ -323,7 +338,10 @@ export const BudgetTab: React.FC = () => {
                   const currentPrio = state.priorities?.[cat] || 3;
 
                   return (
-                    <tr key={line.category} className="hover:bg-stone-50 dark:hover:bg-stone-800/40">
+                    <tr
+                      key={line.category}
+                      className="hover:bg-stone-50 dark:hover:bg-stone-800/40"
+                    >
                       <td className="p-3 font-semibold text-stone-900 dark:text-stone-100 flex items-center gap-2 capitalize">
                         <span>{icon}</span>
                         <span>{line.category.replace('_', ' ')}</span>
@@ -350,7 +368,9 @@ export const BudgetTab: React.FC = () => {
                       </td>
                       <td className="p-3">
                         {isLocked ? (
-                          <span className="text-amber-700 dark:text-amber-400 font-bold">🔒 Locked</span>
+                          <span className="text-amber-700 dark:text-amber-400 font-bold">
+                            🔒 Locked
+                          </span>
                         ) : isContingency ? (
                           <span className="text-stone-500">Fixed</span>
                         ) : (
@@ -371,7 +391,12 @@ export const BudgetTab: React.FC = () => {
         {/* Contingency Explainer Note */}
         {contingencyLine && (
           <div className="p-3.5 bg-stone-100 dark:bg-stone-800/60 rounded-xl border border-stone-200 dark:border-stone-700/60 text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
-            🛡️ <strong className="text-stone-800 dark:text-stone-200">8% Contingency Buffer ({formatINR(contingencyLine.amount)}):</strong> Pre-allocated safety net reserved for emergency cash advances, tips, sudden guest additions, or overtime charges on the event day.
+            🛡️{' '}
+            <strong className="text-stone-800 dark:text-stone-200">
+              8% Contingency Buffer ({formatINR(contingencyLine.amount)}):
+            </strong>{' '}
+            Pre-allocated safety net reserved for emergency cash advances, tips, sudden guest
+            additions, or overtime charges on the event day.
           </div>
         )}
       </div>

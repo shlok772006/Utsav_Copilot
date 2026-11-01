@@ -46,34 +46,32 @@ describe('ChangeBar Component', () => {
     useEventStore.getState().loadSampleEvent();
     const onReplanReady = vi.fn();
 
-    global.fetch = vi
-      .fn()
-      .mockImplementation((url: string) => {
-        if (url.includes('/api/change')) {
-          return Promise.resolve({
-            ok: true,
-            json: async () => ({
-              ops: [
-                { op: 'set_budget', value: 200000 },
-                { op: 'shift_date_days', days: -14 },
-              ],
-            }),
-          } as Response);
-        }
-        if (url.includes('/api/advise')) {
-          return Promise.resolve({
-            ok: true,
-            json: async () => ({
-              summary: 'Budget dropped to ₹2 Lakh with tight 3-week timeline.',
-              options: [
-                { scenarioId: 'direct-change', analysis: 'Direct cut across all categories.' },
-              ],
-              recommendedScenarioId: 'direct-change',
-            }),
-          } as Response);
-        }
-        return Promise.reject(new Error(`Unhandled URL: ${url}`));
-      });
+    global.fetch = vi.fn().mockImplementation((url: string) => {
+      if (url.includes('/api/change')) {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({
+            ops: [
+              { op: 'set_budget', value: 200000 },
+              { op: 'shift_date_days', days: -14 },
+            ],
+          }),
+        } as Response);
+      }
+      if (url.includes('/api/advise')) {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({
+            summary: 'Budget dropped to ₹2 Lakh with tight 3-week timeline.',
+            options: [
+              { scenarioId: 'direct-change', analysis: 'Direct cut across all categories.' },
+            ],
+            recommendedScenarioId: 'direct-change',
+          }),
+        } as Response);
+      }
+      return Promise.reject(new Error(`Unhandled URL: ${url}`));
+    });
 
     render(<ChangeBar onReplanReady={onReplanReady} />);
 

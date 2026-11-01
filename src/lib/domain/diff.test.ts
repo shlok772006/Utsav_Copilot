@@ -60,7 +60,9 @@ describe('Diff Engine (diffPlans)', () => {
   it('tracks status changes when tasks are marked complete', () => {
     const planBefore = buildPlan(baseState, today);
 
-    const { state: completedState } = applyOps(baseState, [{ op: 'complete_task', taskId: 'date-fix' }]);
+    const { state: completedState } = applyOps(baseState, [
+      { op: 'complete_task', taskId: 'date-fix' },
+    ]);
     const planAfter = buildPlan(completedState, today);
 
     const diff = diffPlans(planBefore, planAfter);

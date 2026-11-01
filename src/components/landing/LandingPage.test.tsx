@@ -8,15 +8,13 @@ describe('LandingPage Component', () => {
     const onOpenService = vi.fn();
     const onLaunchPlanner = vi.fn();
 
-    render(
-      <LandingPage
-        onOpenService={onOpenService}
-        onLaunchPlanner={onLaunchPlanner}
-      />
-    );
+    render(<LandingPage onOpenService={onOpenService} onLaunchPlanner={onLaunchPlanner} />);
 
     expect(
-      screen.getByRole('heading', { level: 1, name: /Plan Grand Indian Celebrations with Absolute Clarity/i })
+      screen.getByRole('heading', {
+        level: 1,
+        name: /Plan Grand Indian Celebrations with Absolute Clarity/i,
+      }),
     ).toBeInTheDocument();
 
     expect(screen.getByText(/AI Understanding × Deterministic Math Engine/i)).toBeInTheDocument();
@@ -29,12 +27,7 @@ describe('LandingPage Component', () => {
     const onOpenService = vi.fn();
     const onLaunchPlanner = vi.fn();
 
-    render(
-      <LandingPage
-        onOpenService={onOpenService}
-        onLaunchPlanner={onLaunchPlanner}
-      />
-    );
+    render(<LandingPage onOpenService={onOpenService} onLaunchPlanner={onLaunchPlanner} />);
 
     expect(screen.getByText(/Conversational Intake Assistant/i)).toBeInTheDocument();
     expect(screen.getByText(/Living Budget Breakdown Engine/i)).toBeInTheDocument();
@@ -55,12 +48,7 @@ describe('LandingPage Component', () => {
     const onOpenService = vi.fn();
     const onLaunchPlanner = vi.fn();
 
-    render(
-      <LandingPage
-        onOpenService={onOpenService}
-        onLaunchPlanner={onLaunchPlanner}
-      />
-    );
+    render(<LandingPage onOpenService={onOpenService} onLaunchPlanner={onLaunchPlanner} />);
 
     const startBtn = screen.getByRole('button', { name: /Start Planning Celebration/i });
     fireEvent.click(startBtn);
@@ -72,12 +60,7 @@ describe('LandingPage Component', () => {
     const onLaunchPlanner = vi.fn();
     useEventStore.getState().resetEvent();
 
-    render(
-      <LandingPage
-        onOpenService={onOpenService}
-        onLaunchPlanner={onLaunchPlanner}
-      />
-    );
+    render(<LandingPage onOpenService={onOpenService} onLaunchPlanner={onLaunchPlanner} />);
 
     const demoBtn = screen.getByRole('button', { name: /Try Live Demo/i });
     fireEvent.click(demoBtn);

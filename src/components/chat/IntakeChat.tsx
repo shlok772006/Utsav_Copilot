@@ -76,9 +76,7 @@ export const IntakeChat: React.FC = () => {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(
-          errorData.error?.message || `Server error (${response.status})`
-        );
+        throw new Error(errorData.error?.message || `Server error (${response.status})`);
       }
 
       const data = await response.json();
@@ -141,11 +139,7 @@ export const IntakeChat: React.FC = () => {
       </div>
 
       {/* Messages Feed */}
-      <div
-        className="flex-1 p-5 overflow-y-auto space-y-4"
-        aria-live="polite"
-        role="log"
-      >
+      <div className="flex-1 p-5 overflow-y-auto space-y-4" aria-live="polite" role="log">
         {chatMessages.map((msg) => {
           const isUser = msg.role === 'user';
           return (
@@ -171,7 +165,9 @@ export const IntakeChat: React.FC = () => {
                 {!isUser && (
                   <div className="flex items-center gap-1.5 mb-1.5 text-[11px] font-semibold text-amber-700 dark:text-amber-400">
                     <span>उत्सव Copilot</span>
-                    <span className="text-[10px] text-stone-400 font-normal">• Living Plan Assistant</span>
+                    <span className="text-[10px] text-stone-400 font-normal">
+                      • Living Plan Assistant
+                    </span>
                   </div>
                 )}
                 <p className="whitespace-pre-wrap">{msg.content}</p>
@@ -190,7 +186,9 @@ export const IntakeChat: React.FC = () => {
             </div>
             <div className="bg-amber-50/60 dark:bg-stone-800/80 text-amber-900 dark:text-amber-200 rounded-2xl rounded-bl-xs px-4 py-2.5 text-xs flex items-center gap-2 border border-amber-300/40 dark:border-amber-800/40 shadow-xs">
               <span className="inline-block animate-spin text-amber-500">✦</span>
-              <span className="font-medium">Formulating your celebration strategy & calculating budget...</span>
+              <span className="font-medium">
+                Formulating your celebration strategy & calculating budget...
+              </span>
             </div>
           </div>
         )}
@@ -227,7 +225,9 @@ export const IntakeChat: React.FC = () => {
           className="mx-5 mb-2 p-3 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 rounded-xl flex items-center justify-between text-xs text-rose-800 dark:text-rose-200"
         >
           <div className="flex items-center gap-2">
-            <span aria-hidden="true" className="text-sm">⚠</span>
+            <span aria-hidden="true" className="text-sm">
+              ⚠
+            </span>
             <span>{error}</span>
           </div>
           {lastFailedMessage && (

@@ -45,14 +45,14 @@ describe('Budget Engine (allocateBudget)', () => {
       const occasion = occasions[i % occasions.length];
 
       const priorities: Record<CoreCategory, PriorityLevel> = {
-        venue: (((i % 5) + 1) as PriorityLevel),
-        catering: ((((i + 1) % 5) + 1) as PriorityLevel),
-        decor: ((((i + 2) % 5) + 1) as PriorityLevel),
-        photography: ((((i + 3) % 5) + 1) as PriorityLevel),
-        attire: ((((i + 4) % 5) + 1) as PriorityLevel),
-        entertainment: (((i % 5) + 1) as PriorityLevel),
-        invitations_misc: ((((i + 2) % 5) + 1) as PriorityLevel),
-        logistics: ((((i + 3) % 5) + 1) as PriorityLevel),
+        venue: ((i % 5) + 1) as PriorityLevel,
+        catering: (((i + 1) % 5) + 1) as PriorityLevel,
+        decor: (((i + 2) % 5) + 1) as PriorityLevel,
+        photography: (((i + 3) % 5) + 1) as PriorityLevel,
+        attire: (((i + 4) % 5) + 1) as PriorityLevel,
+        entertainment: ((i % 5) + 1) as PriorityLevel,
+        invitations_misc: (((i + 2) % 5) + 1) as PriorityLevel,
+        logistics: (((i + 3) % 5) + 1) as PriorityLevel,
       };
 
       const state: EventState = createTestEventState({

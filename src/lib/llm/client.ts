@@ -7,6 +7,6 @@ export interface LlmClient {
   generateStructured(
     prompt: string,
     jsonSchema: Record<string, unknown>,
-    options?: StructuredGenerationOptions
+    options?: StructuredGenerationOptions,
   ): Promise<string>;
 }

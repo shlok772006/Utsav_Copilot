@@ -95,7 +95,9 @@ describe('Operations Engine (applyOps)', () => {
     expect(state.constraints.accessibility).toContain('Wheelchair ramp required');
 
     // Remove constraint
-    const removeRes = applyOps(state, [{ op: 'remove_constraint', kind: 'dietary', value: 'Strict Jain' }]);
+    const removeRes = applyOps(state, [
+      { op: 'remove_constraint', kind: 'dietary', value: 'Strict Jain' },
+    ]);
     expect(removeRes.state.constraints.dietary).not.toContain('Strict Jain');
   });
 
@@ -112,7 +114,7 @@ describe('Operations Engine (applyOps)', () => {
   it('applies valid ops in a mixed batch and reports invalid ones', () => {
     const ops: Op[] = [
       { op: 'set_budget', value: 1_200_000 }, // valid
-      { op: 'set_guest_count', value: -10 },   // invalid
+      { op: 'set_guest_count', value: -10 }, // invalid
       { op: 'set_priority', category: 'decor', level: 4 }, // valid
       { op: 'set_priority', category: 'decor', level: 9 as unknown as PriorityLevel }, // invalid
     ];

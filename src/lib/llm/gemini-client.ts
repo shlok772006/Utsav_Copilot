@@ -19,9 +19,7 @@ export class GeminiClient implements LlmClient {
   constructor(apiKey?: string, model?: string) {
     const key = apiKey || process.env.GEMINI_API_KEY;
     if (!key) {
-      throw new Error(
-        'GEMINI_API_KEY environment variable is missing. Add it to .env.local.'
-      );
+      throw new Error('GEMINI_API_KEY environment variable is missing. Add it to .env.local.');
     }
     this.client = new GoogleGenAI({ apiKey: key });
     this.model = model || process.env.GEMINI_MODEL || 'gemini-3.5-flash';
@@ -38,7 +36,7 @@ export class GeminiClient implements LlmClient {
   async generateStructured(
     prompt: string,
     jsonSchema: Record<string, unknown>,
-    options?: StructuredGenerationOptions
+    options?: StructuredGenerationOptions,
   ): Promise<string> {
     const config: Record<string, unknown> = {
       responseMimeType: 'application/json',

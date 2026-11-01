@@ -4,19 +4,13 @@ import {
   PRIORITY_MULTIPLIERS,
 } from '../config/limits';
 import { getBaseShares } from '../config/budget-shares';
-import {
-  BudgetLine,
-  Category,
-  CoreCategory,
-  CoreCategorySchema,
-  EventState,
-} from './types';
+import { BudgetLine, Category, CoreCategory, CoreCategorySchema, EventState } from './types';
 
 const CORE_CATEGORIES: CoreCategory[] = CoreCategorySchema.options;
 
 /**
  * Largest-remainder (Hare-Niemeyer method) integer apportionment algorithm.
- * 
+ *
  * Takes an array of unrounded decimal allocations and a target integer total,
  * distributing the integer deficit across items ordered by fractional remainder.
  * Breaks remainder ties lexicographically by item key to guarantee 100% determinism.
@@ -24,7 +18,7 @@ const CORE_CATEGORIES: CoreCategory[] = CoreCategorySchema.options;
  * @param items - Array of category keys paired with their calculated unrounded decimal amounts.
  * @param targetTotal - The exact integer total that the sum of all rounded allocations must equal.
  * @returns A Map of category keys to strictly rounded integer amounts where sum(values) === targetTotal.
- * 
+ *
  * @example
  * // If targetTotal is 100 and items raw are [33.4, 33.3, 33.3],
  * // floors are [33, 33, 33] (sum 99, deficit 1).
@@ -32,7 +26,7 @@ const CORE_CATEGORIES: CoreCategory[] = CoreCategorySchema.options;
  */
 function largestRemainderRound(
   items: Array<{ key: string; raw: number }>,
-  targetTotal: number
+  targetTotal: number,
 ): Map<string, number> {
   const result = new Map<string, number>();
   if (items.length === 0 || targetTotal <= 0) {
@@ -79,7 +73,7 @@ function largestRemainderRound(
 
 /**
  * Pure domain budget allocation engine.
- * 
+ *
  * Calculates integer budget lines across 8 core celebration categories plus an 8% contingency safety buffer.
  * Incorporates:
  * 1. Base cultural shares specific to the event occasion (Wedding, Anniversary, Birthday, etc.).
@@ -162,7 +156,8 @@ export function allocateBudget(state: EventState): BudgetLine[] {
 
   // Add unlocked categories
   weightedShares.forEach(({ cat, weight }) => {
-    const normalizedShare = totalUnlockedWeight > 0 ? weight / totalUnlockedWeight : 1 / unlockedCategories.length;
+    const normalizedShare =
+      totalUnlockedWeight > 0 ? weight / totalUnlockedWeight : 1 / unlockedCategories.length;
     const rawVal = unlockedPool * normalizedShare;
     roundItems.push({ key: cat, raw: rawVal });
   });
@@ -181,7 +176,9 @@ export function allocateBudget(state: EventState): BudgetLine[] {
     }
 
     const share = totalBudget > 0 ? Number((amount / totalBudget).toFixed(4)) : 0;
-    const isGuestDriven = GUEST_DRIVEN_CATEGORIES.includes(cat as (typeof GUEST_DRIVEN_CATEGORIES)[number]);
+    const isGuestDriven = GUEST_DRIVEN_CATEGORIES.includes(
+      cat as (typeof GUEST_DRIVEN_CATEGORIES)[number],
+    );
     const perGuest = isGuestDriven && guests ? Math.round(amount / guests) : undefined;
 
     lines.push({

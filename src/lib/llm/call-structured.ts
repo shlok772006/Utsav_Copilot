@@ -73,7 +73,7 @@ export async function callStructured<T>(
   promptId: PromptId,
   variables: Record<string, unknown>,
   schema: z.ZodType<T>,
-  options: CallStructuredOptions = {}
+  options: CallStructuredOptions = {},
 ): Promise<T> {
   const client = options.client || getDefaultLlmClient();
   const temperature = options.temperature ?? 0.1;
@@ -87,7 +87,7 @@ export async function callStructured<T>(
     rawResponse = await client.generateStructured(promptText, jsonSchema, { temperature });
   } catch (err) {
     throw new LlmUnavailableError(
-      `LLM generation request failed: ${err instanceof Error ? err.message : String(err)}`
+      `LLM generation request failed: ${err instanceof Error ? err.message : String(err)}`,
     );
   }
 
@@ -108,9 +108,10 @@ export async function callStructured<T>(
 
   // Attempt 2: ONE repair retry
   const firstErrors = parsedJson ? schema.safeParse(parsedJson) : null;
-  const errorDetails = firstErrors && !firstErrors.success
-    ? firstErrors.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; ')
-    : 'Invalid JSON format or missing expected schema fields';
+  const errorDetails =
+    firstErrors && !firstErrors.success
+      ? firstErrors.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; ')
+      : 'Invalid JSON format or missing expected schema fields';
 
   const repairPrompt = `${promptText}
 
@@ -123,10 +124,12 @@ Please return the corrected JSON object matching the required schema ONLY. No ma
 
   let repairResponse: string;
   try {
-    repairResponse = await client.generateStructured(repairPrompt, jsonSchema, { temperature: 0.0 });
+    repairResponse = await client.generateStructured(repairPrompt, jsonSchema, {
+      temperature: 0.0,
+    });
   } catch (err) {
     throw new LlmBadOutputError(
-      `Repair LLM request failed: ${err instanceof Error ? err.message : String(err)}`
+      `Repair LLM request failed: ${err instanceof Error ? err.message : String(err)}`,
     );
   }
 
@@ -137,9 +140,14 @@ Please return the corrected JSON object matching the required schema ONLY. No ma
       return repairResult.data;
     }
     const finalIssues = repairResult.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`);
-    throw new LlmBadOutputError(`Output failed schema validation after repair attempt: ${finalIssues.join(', ')}`, finalIssues);
+    throw new LlmBadOutputError(
+      `Output failed schema validation after repair attempt: ${finalIssues.join(', ')}`,
+      finalIssues,
+    );
   } catch (err) {
     if (err instanceof LlmBadOutputError) throw err;
-    throw new LlmBadOutputError(`Failed to parse repaired LLM output as JSON: ${err instanceof Error ? err.message : String(err)}`);
+    throw new LlmBadOutputError(
+      `Failed to parse repaired LLM output as JSON: ${err instanceof Error ? err.message : String(err)}`,
+    );
   }
 }

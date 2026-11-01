@@ -44,14 +44,20 @@ export function resolveDateHint(hint: string | null | undefined, today: string):
   // 2. Relative weeks: "in 5 weeks", "5 weeks", "in a week"
   const weeksMatch = clean.match(/(?:in\s+)?(\d+|a|an|one)\s+weeks?/);
   if (weeksMatch) {
-    const num = weeksMatch[1] === 'a' || weeksMatch[1] === 'an' || weeksMatch[1] === 'one' ? 1 : parseInt(weeksMatch[1], 10);
+    const num =
+      weeksMatch[1] === 'a' || weeksMatch[1] === 'an' || weeksMatch[1] === 'one'
+        ? 1
+        : parseInt(weeksMatch[1], 10);
     return addDays(today, num * 7);
   }
 
   // 3. Relative months: "in 2 months", "2 months", "in a month"
   const monthsMatch = clean.match(/(?:in\s+)?(\d+|a|an|one)\s+months?/);
   if (monthsMatch) {
-    const num = monthsMatch[1] === 'a' || monthsMatch[1] === 'an' || monthsMatch[1] === 'one' ? 1 : parseInt(monthsMatch[1], 10);
+    const num =
+      monthsMatch[1] === 'a' || monthsMatch[1] === 'an' || monthsMatch[1] === 'one'
+        ? 1
+        : parseInt(monthsMatch[1], 10);
     return addDays(today, num * 30);
   }
 

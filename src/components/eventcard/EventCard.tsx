@@ -97,13 +97,19 @@ export const EventCard: React.FC = () => {
       <div className="p-5 flex-1 overflow-y-auto space-y-6">
         {/* Inline Edit Form */}
         {isEditing ? (
-          <form onSubmit={saveEdit} className="space-y-4 bg-stone-50 dark:bg-stone-800/40 p-4 rounded-xl border border-stone-200 dark:border-stone-700/80">
+          <form
+            onSubmit={saveEdit}
+            className="space-y-4 bg-stone-50 dark:bg-stone-800/40 p-4 rounded-xl border border-stone-200 dark:border-stone-700/80"
+          >
             <h3 className="text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">
               Direct Field Override
             </h3>
 
             <div>
-              <label htmlFor="edit-occasion" className="block text-xs font-medium text-stone-700 dark:text-stone-300 mb-1">
+              <label
+                htmlFor="edit-occasion"
+                className="block text-xs font-medium text-stone-700 dark:text-stone-300 mb-1"
+              >
                 Occasion
               </label>
               <select
@@ -122,7 +128,10 @@ export const EventCard: React.FC = () => {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label htmlFor="edit-budget" className="block text-xs font-medium text-stone-700 dark:text-stone-300 mb-1">
+                <label
+                  htmlFor="edit-budget"
+                  className="block text-xs font-medium text-stone-700 dark:text-stone-300 mb-1"
+                >
                   Budget (₹ INR)
                 </label>
                 <input
@@ -136,7 +145,10 @@ export const EventCard: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="edit-guests" className="block text-xs font-medium text-stone-700 dark:text-stone-300 mb-1">
+                <label
+                  htmlFor="edit-guests"
+                  className="block text-xs font-medium text-stone-700 dark:text-stone-300 mb-1"
+                >
                   Guests Count
                 </label>
                 <input
@@ -152,7 +164,10 @@ export const EventCard: React.FC = () => {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label htmlFor="edit-date" className="block text-xs font-medium text-stone-700 dark:text-stone-300 mb-1">
+                <label
+                  htmlFor="edit-date"
+                  className="block text-xs font-medium text-stone-700 dark:text-stone-300 mb-1"
+                >
                   Event Date
                 </label>
                 <input
@@ -165,7 +180,10 @@ export const EventCard: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="edit-city" className="block text-xs font-medium text-stone-700 dark:text-stone-300 mb-1">
+                <label
+                  htmlFor="edit-city"
+                  className="block text-xs font-medium text-stone-700 dark:text-stone-300 mb-1"
+                >
                   City
                 </label>
                 <input
@@ -214,7 +232,11 @@ export const EventCard: React.FC = () => {
               <ProvenanceBadge provenance="user" />
             </div>
             <p className="text-sm font-bold text-amber-700 dark:text-amber-400">
-              {state.totalBudget ? formatINR(state.totalBudget) : <span className="text-stone-400 font-normal">Not stated</span>}
+              {state.totalBudget ? (
+                formatINR(state.totalBudget)
+              ) : (
+                <span className="text-stone-400 font-normal">Not stated</span>
+              )}
             </p>
           </div>
 
@@ -228,7 +250,11 @@ export const EventCard: React.FC = () => {
               <ProvenanceBadge provenance="user" />
             </div>
             <p className="text-sm font-bold text-stone-900 dark:text-stone-100">
-              {state.guestCount ? `${formatNumber(state.guestCount)} guests` : <span className="text-stone-400 font-normal">Not stated</span>}
+              {state.guestCount ? (
+                `${formatNumber(state.guestCount)} guests`
+              ) : (
+                <span className="text-stone-400 font-normal">Not stated</span>
+              )}
             </p>
           </div>
 
@@ -265,7 +291,8 @@ export const EventCard: React.FC = () => {
               Plan Initialization Checklist
             </h3>
             <span className="text-[11px] font-bold text-amber-600 dark:text-amber-400">
-              {Number(hasOccasion) + Number(hasBudget) + Number(hasGuests) + Number(hasDate)} / 4 Ready
+              {Number(hasOccasion) + Number(hasBudget) + Number(hasGuests) + Number(hasDate)} / 4
+              Ready
             </span>
           </div>
 
@@ -285,7 +312,9 @@ export const EventCard: React.FC = () => {
                 <span>✓</span>
                 <span>All parameters active & driving calculations</span>
               </span>
-              <span className="text-[10px] uppercase font-bold tracking-wider text-emerald-600 dark:text-emerald-400">100%</span>
+              <span className="text-[10px] uppercase font-bold tracking-wider text-emerald-600 dark:text-emerald-400">
+                100%
+              </span>
             </div>
           ) : (
             <div className="space-y-1.5 text-xs">
@@ -293,7 +322,13 @@ export const EventCard: React.FC = () => {
                 <span className={hasOccasion ? 'text-emerald-600 font-bold' : 'text-stone-400'}>
                   {hasOccasion ? '✓' : '○'}
                 </span>
-                <span className={hasOccasion ? 'text-stone-800 dark:text-stone-200 font-medium' : 'text-stone-500'}>
+                <span
+                  className={
+                    hasOccasion
+                      ? 'text-stone-800 dark:text-stone-200 font-medium'
+                      : 'text-stone-500'
+                  }
+                >
                   Celebration Occasion
                 </span>
               </div>
@@ -301,7 +336,11 @@ export const EventCard: React.FC = () => {
                 <span className={hasBudget ? 'text-emerald-600 font-bold' : 'text-stone-400'}>
                   {hasBudget ? '✓' : '○'}
                 </span>
-                <span className={hasBudget ? 'text-stone-800 dark:text-stone-200 font-medium' : 'text-stone-500'}>
+                <span
+                  className={
+                    hasBudget ? 'text-stone-800 dark:text-stone-200 font-medium' : 'text-stone-500'
+                  }
+                >
                   Target Total Budget (INR)
                 </span>
               </div>
@@ -309,7 +348,11 @@ export const EventCard: React.FC = () => {
                 <span className={hasGuests ? 'text-emerald-600 font-bold' : 'text-stone-400'}>
                   {hasGuests ? '✓' : '○'}
                 </span>
-                <span className={hasGuests ? 'text-stone-800 dark:text-stone-200 font-medium' : 'text-stone-500'}>
+                <span
+                  className={
+                    hasGuests ? 'text-stone-800 dark:text-stone-200 font-medium' : 'text-stone-500'
+                  }
+                >
                   Approximate Guest Headcount
                 </span>
               </div>
@@ -317,7 +360,11 @@ export const EventCard: React.FC = () => {
                 <span className={hasDate ? 'text-emerald-600 font-bold' : 'text-stone-400'}>
                   {hasDate ? '✓' : '○'}
                 </span>
-                <span className={hasDate ? 'text-stone-800 dark:text-stone-200 font-medium' : 'text-stone-500'}>
+                <span
+                  className={
+                    hasDate ? 'text-stone-800 dark:text-stone-200 font-medium' : 'text-stone-500'
+                  }
+                >
                   Event Date & Countdown
                 </span>
               </div>
@@ -399,7 +446,9 @@ export const EventCard: React.FC = () => {
         {plan && (
           <div className="pt-2 border-t border-stone-200 dark:border-stone-800">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-medium text-stone-500 dark:text-stone-400">Timeline Scope</span>
+              <span className="text-xs font-medium text-stone-500 dark:text-stone-400">
+                Timeline Scope
+              </span>
               <span className="text-xs font-semibold text-stone-800 dark:text-stone-200">
                 {plan.daysAvailable} days available / {plan.criticalPathDays} days critical path
               </span>

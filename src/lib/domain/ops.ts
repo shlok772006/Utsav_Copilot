@@ -26,7 +26,7 @@ const KNOWN_TASK_IDS = new Set(TASK_TEMPLATES.map((t) => t.id));
 export function applyOps(
   state: EventState,
   ops: Op[],
-  referenceDate?: string
+  referenceDate?: string,
 ): { state: EventState; rejected: RejectedOp[] } {
   // Deep copy state to ensure pure immutability
   const currentState: EventState = {
@@ -66,7 +66,10 @@ export function applyOps(
 
       case 'scale_budget': {
         if (typeof op.factor !== 'number' || isNaN(op.factor) || op.factor <= 0 || op.factor > 10) {
-          rejected.push({ op, reason: 'Budget scaling factor must be a positive number between 0 and 10.' });
+          rejected.push({
+            op,
+            reason: 'Budget scaling factor must be a positive number between 0 and 10.',
+          });
           break;
         }
         const baseBudget = currentState.totalBudget || 0;
@@ -131,7 +134,10 @@ export function applyOps(
           break;
         }
         if (referenceDate && op.value < referenceDate) {
-          rejected.push({ op, reason: `Event date ${op.value} cannot be set in the past relative to ${referenceDate}.` });
+          rejected.push({
+            op,
+            reason: `Event date ${op.value} cannot be set in the past relative to ${referenceDate}.`,
+          });
           break;
         }
         currentState.eventDate = op.value;
@@ -149,7 +155,10 @@ export function applyOps(
         }
         const newDate = addDays(currentState.eventDate, op.days);
         if (referenceDate && newDate < referenceDate) {
-          rejected.push({ op, reason: `Shifted date ${newDate} cannot be in the past relative to ${referenceDate}.` });
+          rejected.push({
+            op,
+            reason: `Shifted date ${newDate} cannot be in the past relative to ${referenceDate}.`,
+          });
           break;
         }
         currentState.eventDate = newDate;
@@ -188,7 +197,9 @@ export function applyOps(
           rejected.push({ op, reason: `Unknown category "${op.category}".` });
           break;
         }
-        currentState.lockedCategories = currentState.lockedCategories.filter((c) => c !== op.category);
+        currentState.lockedCategories = currentState.lockedCategories.filter(
+          (c) => c !== op.category,
+        );
         const nextLockedLines = { ...currentState.lockedBudgetLines };
         delete nextLockedLines[op.category];
         currentState.lockedBudgetLines = nextLockedLines;

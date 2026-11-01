@@ -20,12 +20,7 @@ interface TabsProps {
   className?: string;
 }
 
-export const Tabs: React.FC<TabsProps> = ({
-  activeTab,
-  onTabChange,
-  tabs,
-  className = '',
-}) => {
+export const Tabs: React.FC<TabsProps> = ({ activeTab, onTabChange, tabs, className = '' }) => {
   return (
     <nav
       role="tablist"
@@ -50,8 +45,8 @@ export const Tabs: React.FC<TabsProps> = ({
               isActive
                 ? 'bg-linear-to-r from-amber-600 to-orange-600 text-white shadow-sm font-bold'
                 : isDisabled
-                ? 'opacity-40 cursor-not-allowed text-stone-400 dark:text-stone-500'
-                : 'text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800/60'
+                  ? 'opacity-40 cursor-not-allowed text-stone-400 dark:text-stone-500'
+                  : 'text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800/60'
             }`}
           >
             <span aria-hidden="true" className="text-sm leading-none">

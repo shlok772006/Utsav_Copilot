@@ -36,7 +36,8 @@ export default function ErrorBoundary({ error, reset }: ErrorProps) {
         </h1>
 
         <p className="text-xs text-stone-600 dark:text-stone-400 mb-6 leading-relaxed">
-          Utsav Copilot encountered an unexpected issue while rendering your celebration workspace. Your plan data in local storage remains safe.
+          Utsav Copilot encountered an unexpected issue while rendering your celebration workspace.
+          Your plan data in local storage remains safe.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">

@@ -37,7 +37,10 @@ describe('Hero Flow Integration Test (Prompt Wars Challenge 5)', () => {
               'Budget dropped by ₹1 Lakh and date moved 2 weeks earlier. Schedule is compressed. We recommend trimming guests to preserve food quality.',
             options: [
               { scenarioId: 'direct-change', analysis: 'Direct cut across all categories.' },
-              { scenarioId: 'trim-guests', analysis: 'Trimming guests to ~51 keeps food quality high.' },
+              {
+                scenarioId: 'trim-guests',
+                analysis: 'Trimming guests to ~51 keeps food quality high.',
+              },
             ],
             recommendedScenarioId: 'trim-guests',
           }),

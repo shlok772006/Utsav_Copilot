@@ -16,7 +16,7 @@ export async function parseJsonBody<T>(req: NextRequest): Promise<T> {
   const contentLength = req.headers.get('content-length');
   if (contentLength && parseInt(contentLength, 10) > RATE_LIMIT_CONFIG.maxBodySizeBytes) {
     throw new PayloadTooLargeError(
-      `Request body (${contentLength} bytes) exceeds the maximum allowed size of ${RATE_LIMIT_CONFIG.maxBodySizeBytes} bytes (20 KB).`
+      `Request body (${contentLength} bytes) exceeds the maximum allowed size of ${RATE_LIMIT_CONFIG.maxBodySizeBytes} bytes (20 KB).`,
     );
   }
 
@@ -25,7 +25,7 @@ export async function parseJsonBody<T>(req: NextRequest): Promise<T> {
 
   if (byteLength > RATE_LIMIT_CONFIG.maxBodySizeBytes) {
     throw new PayloadTooLargeError(
-      `Request body (${byteLength} bytes) exceeds the maximum allowed size of ${RATE_LIMIT_CONFIG.maxBodySizeBytes} bytes (20 KB).`
+      `Request body (${byteLength} bytes) exceeds the maximum allowed size of ${RATE_LIMIT_CONFIG.maxBodySizeBytes} bytes (20 KB).`,
     );
   }
 

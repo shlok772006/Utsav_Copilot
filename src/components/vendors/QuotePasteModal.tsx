@@ -73,7 +73,9 @@ export const QuotePasteModal: React.FC<QuotePasteModalProps> = ({
 
       if (!res.ok) {
         const errJson = await res.json().catch(() => ({}));
-        throw new Error(errJson.error?.message || `Failed to parse vendor quote (HTTP ${res.status})`);
+        throw new Error(
+          errJson.error?.message || `Failed to parse vendor quote (HTTP ${res.status})`,
+        );
       }
 
       const data = (await res.json()) as {
@@ -94,11 +96,11 @@ export const QuotePasteModal: React.FC<QuotePasteModalProps> = ({
           extraction.unitLabel?.toLowerCase().includes('guest')
             ? 'per_guest'
             : typeof extraction.totalPrice === 'number'
-            ? 'fixed'
-            : undefined,
+              ? 'fixed'
+              : undefined,
         coverageCount: extraction.guestsCovered ?? undefined,
         includesTax: !extraction.additionalCharges.some(
-          (c) => c.toLowerCase().includes('gst') || c.toLowerCase().includes('tax')
+          (c) => c.toLowerCase().includes('gst') || c.toLowerCase().includes('tax'),
         ),
         taxRate: 0.05,
         rawText: trimmed,
@@ -120,7 +122,9 @@ export const QuotePasteModal: React.FC<QuotePasteModalProps> = ({
       onClose();
       if (onQuoteAdded) onQuoteAdded();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to analyze vendor quote. Please try again.');
+      setError(
+        err instanceof Error ? err.message : 'Failed to analyze vendor quote. Please try again.',
+      );
     } finally {
       setIsLoading(false);
     }
@@ -137,7 +141,10 @@ export const QuotePasteModal: React.FC<QuotePasteModalProps> = ({
         {/* Header */}
         <div className="px-5 py-4 border-b border-stone-200 dark:border-stone-800 bg-amber-50/50 dark:bg-stone-950/40 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h2 id="paste-quote-title" className="text-base font-bold text-stone-900 dark:text-stone-100">
+            <h2
+              id="paste-quote-title"
+              className="text-base font-bold text-stone-900 dark:text-stone-100"
+            >
               Add Vendor Quote for Comparison
             </h2>
             <span
@@ -170,7 +177,10 @@ export const QuotePasteModal: React.FC<QuotePasteModalProps> = ({
 
           {/* Category Dropdown */}
           <div>
-            <label htmlFor="quote-category" className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
+            <label
+              htmlFor="quote-category"
+              className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1"
+            >
               Select Category
             </label>
             <select
@@ -190,12 +200,13 @@ export const QuotePasteModal: React.FC<QuotePasteModalProps> = ({
           {/* Raw Text Textarea */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label htmlFor="raw-quote-text" className="text-xs font-semibold text-stone-700 dark:text-stone-300">
+              <label
+                htmlFor="raw-quote-text"
+                className="text-xs font-semibold text-stone-700 dark:text-stone-300"
+              >
                 Paste Quote Text (WhatsApp, Email, Rate Card)
               </label>
-              <span className="text-[11px] font-mono text-stone-400">
-                {rawText.length}/6000
-              </span>
+              <span className="text-[11px] font-mono text-stone-400">{rawText.length}/6000</span>
             </div>
             <textarea
               id="raw-quote-text"

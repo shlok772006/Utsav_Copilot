@@ -31,15 +31,21 @@ describe('Home Page Integration', () => {
     const budgetTabBtn = screen.getByRole('tab', { name: /Budget Breakdown/i });
     fireEvent.click(budgetTabBtn);
 
-    expect(screen.getByRole('heading', { level: 2, name: /Budget Allocation Breakdown/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: /Budget Allocation Breakdown/i }),
+    ).toBeInTheDocument();
     expect(screen.queryByPlaceholderText(/Budget 4 lakh/i)).not.toBeInTheDocument();
 
     // Switch to Timeline tab
     const timelineTabBtn = screen.getByRole('tab', { name: /Timeline & Tasks/i });
     fireEvent.click(timelineTabBtn);
 
-    expect(screen.getByRole('heading', { level: 2, name: /Timeline & Task Critical Path/i })).toBeInTheDocument();
-    expect(screen.queryByRole('heading', { level: 2, name: /Budget Allocation Breakdown/i })).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: /Timeline & Task Critical Path/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { level: 2, name: /Budget Allocation Breakdown/i }),
+    ).not.toBeInTheDocument();
 
     // Switch back to Intake tab
     const intakeTabBtn = screen.getByRole('tab', { name: /Chat & Intake/i });

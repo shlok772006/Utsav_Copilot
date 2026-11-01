@@ -75,7 +75,7 @@ describe('IdeasTab Component', () => {
       '/api/ideas',
       expect.objectContaining({
         method: 'POST',
-      })
+      }),
     );
   });
 

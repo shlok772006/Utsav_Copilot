@@ -33,7 +33,9 @@ export const ReplanDiffModal: React.FC<ReplanDiffModalProps> = ({
 }) => {
   const { state, applyOpsAction } = useEventStore();
   const [userSelectedScenarioId, setUserSelectedScenarioId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'scenarios' | 'budget' | 'timeline' | 'warnings'>('scenarios');
+  const [activeTab, setActiveTab] = useState<'scenarios' | 'budget' | 'timeline' | 'warnings'>(
+    'scenarios',
+  );
 
   // Handle ESC key to dismiss modal
   useEffect(() => {
@@ -78,14 +80,18 @@ export const ReplanDiffModal: React.FC<ReplanDiffModalProps> = ({
         <div className="px-5 py-4 border-b border-stone-200 dark:border-stone-800 bg-amber-50/50 dark:bg-stone-950/40 flex items-start justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
-              <h2 id="replan-modal-title" className="text-base font-bold text-stone-900 dark:text-stone-100">
+              <h2
+                id="replan-modal-title"
+                className="text-base font-bold text-stone-900 dark:text-stone-100"
+              >
                 Plan Revision & Impact Analysis
               </h2>
               <ProvenanceBadge provenance="ai" />
               <ProvenanceBadge provenance="derived" />
             </div>
             <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
-              Triggered by: &quot;<strong className="text-stone-700 dark:text-stone-300">{userText}</strong>&quot;
+              Triggered by: &quot;
+              <strong className="text-stone-700 dark:text-stone-300">{userText}</strong>&quot;
             </p>
           </div>
 
@@ -170,7 +176,8 @@ export const ReplanDiffModal: React.FC<ReplanDiffModalProps> = ({
           {activeTab === 'scenarios' && (
             <div className="space-y-3">
               <p className="text-xs text-stone-600 dark:text-stone-400">
-                Choose how you want to adapt to the new constraints. Every option calculates all numbers with zero guesswork:
+                Choose how you want to adapt to the new constraints. Every option calculates all
+                numbers with zero guesswork:
               </p>
 
               <div className="space-y-3" role="radiogroup" aria-label="Tradeoff scenario choices">
@@ -227,7 +234,9 @@ export const ReplanDiffModal: React.FC<ReplanDiffModalProps> = ({
                             </p>
 
                             <div className="mt-2 text-[11px] p-2 rounded-lg bg-white/70 dark:bg-stone-900/60 border border-stone-200/80 dark:border-stone-800 text-stone-600 dark:text-stone-400">
-                              <strong className="text-stone-800 dark:text-stone-200">Tradeoff:</strong>{' '}
+                              <strong className="text-stone-800 dark:text-stone-200">
+                                Tradeoff:
+                              </strong>{' '}
                               {s.tradeoff}
                               {analysisText && (
                                 <span className="block mt-1 text-amber-800 dark:text-amber-300 font-medium">
@@ -269,11 +278,15 @@ export const ReplanDiffModal: React.FC<ReplanDiffModalProps> = ({
                     netBudgetDelta < 0
                       ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-200'
                       : netBudgetDelta > 0
-                      ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200'
-                      : 'bg-stone-200 text-stone-700'
+                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200'
+                        : 'bg-stone-200 text-stone-700'
                   }`}
                 >
-                  {netBudgetDelta > 0 ? `+${formatINR(netBudgetDelta)}` : netBudgetDelta < 0 ? `-${formatINR(Math.abs(netBudgetDelta))}` : '₹0 Change'}
+                  {netBudgetDelta > 0
+                    ? `+${formatINR(netBudgetDelta)}`
+                    : netBudgetDelta < 0
+                      ? `-${formatINR(Math.abs(netBudgetDelta))}`
+                      : '₹0 Change'}
                 </div>
               </div>
 
@@ -282,20 +295,33 @@ export const ReplanDiffModal: React.FC<ReplanDiffModalProps> = ({
                 <table className="w-full text-left text-xs text-stone-700 dark:text-stone-300">
                   <thead className="bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-stone-100 font-semibold border-b border-stone-200 dark:border-stone-700">
                     <tr>
-                      <th scope="col" className="p-2.5">Category</th>
-                      <th scope="col" className="p-2.5 text-right">Previous</th>
-                      <th scope="col" className="p-2.5 text-right">Revised</th>
-                      <th scope="col" className="p-2.5 text-right">Change</th>
+                      <th scope="col" className="p-2.5">
+                        Category
+                      </th>
+                      <th scope="col" className="p-2.5 text-right">
+                        Previous
+                      </th>
+                      <th scope="col" className="p-2.5 text-right">
+                        Revised
+                      </th>
+                      <th scope="col" className="p-2.5 text-right">
+                        Change
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-stone-200 dark:divide-stone-800 bg-white dark:bg-stone-900">
                     {diff.budgetDeltas.map((line) => {
                       const icon = CATEGORY_ICONS[line.category] || '📦';
-                      const isLocked = lockedSet.has(line.category as (typeof state.lockedCategories)[number]);
+                      const isLocked = lockedSet.has(
+                        line.category as (typeof state.lockedCategories)[number],
+                      );
                       const delta = line.deltaAmount;
 
                       return (
-                        <tr key={line.category} className="hover:bg-stone-50 dark:hover:bg-stone-800/40">
+                        <tr
+                          key={line.category}
+                          className="hover:bg-stone-50 dark:hover:bg-stone-800/40"
+                        >
                           <td className="p-2.5 font-semibold text-stone-900 dark:text-stone-100 flex items-center gap-1.5 capitalize">
                             <span>{icon}</span>
                             <span>{line.category.replace('_', ' ')}</span>
@@ -317,11 +343,15 @@ export const ReplanDiffModal: React.FC<ReplanDiffModalProps> = ({
                                 delta < 0
                                   ? 'text-rose-600 dark:text-rose-400'
                                   : delta > 0
-                                  ? 'text-emerald-600 dark:text-emerald-400'
-                                  : 'text-stone-400'
+                                    ? 'text-emerald-600 dark:text-emerald-400'
+                                    : 'text-stone-400'
                               }`}
                             >
-                              {delta > 0 ? `+${formatINR(delta)}` : delta < 0 ? `-${formatINR(Math.abs(delta))}` : '—'}
+                              {delta > 0
+                                ? `+${formatINR(delta)}`
+                                : delta < 0
+                                  ? `-${formatINR(Math.abs(delta))}`
+                                  : '—'}
                             </span>
                           </td>
                         </tr>
@@ -340,7 +370,9 @@ export const ReplanDiffModal: React.FC<ReplanDiffModalProps> = ({
                 <div className="p-3 bg-rose-50 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-800 rounded-xl text-xs text-rose-900 dark:text-rose-200 flex items-center gap-2">
                   <span>⚡</span>
                   <span>
-                    <strong>Schedule is now compressed:</strong> available days ({proposedPlan.daysAvailable}) &lt; critical path ({proposedPlan.criticalPathDays} days).
+                    <strong>Schedule is now compressed:</strong> available days (
+                    {proposedPlan.daysAvailable}) &lt; critical path (
+                    {proposedPlan.criticalPathDays} days).
                   </span>
                 </div>
               )}
@@ -361,7 +393,10 @@ export const ReplanDiffModal: React.FC<ReplanDiffModalProps> = ({
                           {t.title}
                         </div>
                         <div className="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5">
-                          {formatDateDisplay(t.previousDeadline)} → <strong className="text-stone-700 dark:text-stone-300">{formatDateDisplay(t.currentDeadline)}</strong>
+                          {formatDateDisplay(t.previousDeadline)} →{' '}
+                          <strong className="text-stone-700 dark:text-stone-300">
+                            {formatDateDisplay(t.currentDeadline)}
+                          </strong>
                         </div>
                       </div>
 
@@ -372,7 +407,9 @@ export const ReplanDiffModal: React.FC<ReplanDiffModalProps> = ({
                             : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200'
                         }`}
                       >
-                        {t.daysShifted < 0 ? `${Math.abs(t.daysShifted)}d earlier` : `${t.daysShifted}d later`}
+                        {t.daysShifted < 0
+                          ? `${Math.abs(t.daysShifted)}d earlier`
+                          : `${t.daysShifted}d later`}
                       </div>
                     </div>
                   ))}

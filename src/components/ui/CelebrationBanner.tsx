@@ -6,13 +6,37 @@ import { formatINR, formatNumber, formatDateDisplay } from '@/lib/ui/format';
 import { Occasion } from '@/lib/domain/types';
 
 const OCCASION_META: Record<Occasion, { icon: string; label: string; gradient: string }> = {
-  wedding: { icon: '💒', label: 'Wedding Celebration', gradient: 'from-rose-500/20 to-amber-500/20' },
-  sangeet: { icon: '🪕', label: 'Sangeet & Mehendi Night', gradient: 'from-amber-500/20 to-orange-500/20' },
-  engagement: { icon: '💍', label: 'Engagement Ceremony', gradient: 'from-amber-500/20 to-yellow-500/20' },
-  anniversary: { icon: '🌟', label: 'Milestone Anniversary', gradient: 'from-emerald-500/20 to-teal-500/20' },
-  birthday: { icon: '🎂', label: 'Birthday Celebration', gradient: 'from-purple-500/20 to-pink-500/20' },
+  wedding: {
+    icon: '💒',
+    label: 'Wedding Celebration',
+    gradient: 'from-rose-500/20 to-amber-500/20',
+  },
+  sangeet: {
+    icon: '🪕',
+    label: 'Sangeet & Mehendi Night',
+    gradient: 'from-amber-500/20 to-orange-500/20',
+  },
+  engagement: {
+    icon: '💍',
+    label: 'Engagement Ceremony',
+    gradient: 'from-amber-500/20 to-yellow-500/20',
+  },
+  anniversary: {
+    icon: '🌟',
+    label: 'Milestone Anniversary',
+    gradient: 'from-emerald-500/20 to-teal-500/20',
+  },
+  birthday: {
+    icon: '🎂',
+    label: 'Birthday Celebration',
+    gradient: 'from-purple-500/20 to-pink-500/20',
+  },
   reception: { icon: '🥂', label: 'Grand Reception', gradient: 'from-sky-500/20 to-indigo-500/20' },
-  general: { icon: '✨', label: 'Family Celebration', gradient: 'from-amber-500/20 to-rose-500/20' },
+  general: {
+    icon: '✨',
+    label: 'Family Celebration',
+    gradient: 'from-amber-500/20 to-rose-500/20',
+  },
 };
 
 interface CelebrationBannerProps {
@@ -41,7 +65,7 @@ export const CelebrationBanner: React.FC<CelebrationBannerProps> = ({
     state.totalBudget > 0 &&
     state.guestCount &&
     state.guestCount > 0 &&
-    state.eventDate
+    state.eventDate,
   );
 
   return (
@@ -72,7 +96,9 @@ export const CelebrationBanner: React.FC<CelebrationBannerProps> = ({
             <p className="text-xs text-stone-500 dark:text-stone-400 flex items-center gap-2 mt-1">
               <span className="flex items-center gap-1">📍 {state.city || 'City not set'}</span>
               <span>•</span>
-              <span className="flex items-center gap-1">📅 {formatDateDisplay(state.eventDate)}</span>
+              <span className="flex items-center gap-1">
+                📅 {formatDateDisplay(state.eventDate)}
+              </span>
             </p>
           </div>
         </div>

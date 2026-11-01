@@ -30,7 +30,7 @@ describe('callStructured with repair retry', () => {
       'change',
       { current_state: {}, user_input: 'test' },
       TestSchema,
-      { client: fakeClient }
+      { client: fakeClient },
     );
 
     expect(result).toEqual({ greeting: 'Namaste', count: 108 });
@@ -46,7 +46,7 @@ describe('callStructured with repair retry', () => {
       'change',
       { current_state: {}, user_input: 'test' },
       TestSchema,
-      { client: fakeClient }
+      { client: fakeClient },
     );
 
     expect(result).toEqual({ greeting: 'Corrected Namaste', count: 50 });
@@ -61,12 +61,9 @@ describe('callStructured with repair retry', () => {
     const fakeClient = new FakeLlmClient([badJson1, badJson2]);
 
     await expect(
-      callStructured(
-        'change',
-        { current_state: {}, user_input: 'test' },
-        TestSchema,
-        { client: fakeClient }
-      )
+      callStructured('change', { current_state: {}, user_input: 'test' }, TestSchema, {
+        client: fakeClient,
+      }),
     ).rejects.toThrow(LlmBadOutputError);
 
     expect(fakeClient.calls).toHaveLength(2);
@@ -76,12 +73,9 @@ describe('callStructured with repair retry', () => {
     const fakeClient = new FakeLlmClient([new Error('Network failure')]);
 
     await expect(
-      callStructured(
-        'change',
-        { current_state: {}, user_input: 'test' },
-        TestSchema,
-        { client: fakeClient }
-      )
+      callStructured('change', { current_state: {}, user_input: 'test' }, TestSchema, {
+        client: fakeClient,
+      }),
     ).rejects.toThrow(LlmUnavailableError);
   });
 });

@@ -4,7 +4,10 @@ import React, { useState } from 'react';
 import { useEventStore } from '@/lib/store/useEventStore';
 import { ConceptIdea } from '@/lib/llm/schemas';
 
-const COST_LEVEL_STYLES: Record<ConceptIdea['costLevel'], { label: string; bg: string; text: string; border: string }> = {
+const COST_LEVEL_STYLES: Record<
+  ConceptIdea['costLevel'],
+  { label: string; bg: string; text: string; border: string }
+> = {
   lower: {
     label: 'Cost Level: Lower',
     bg: 'bg-emerald-100 dark:bg-emerald-950/60',
@@ -65,7 +68,11 @@ export const IdeasTab: React.FC = () => {
         setConcepts(data.concepts);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unable to generate personalized concepts. Please try again.');
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Unable to generate personalized concepts. Please try again.',
+      );
     } finally {
       setIsLoading(false);
     }
@@ -94,7 +101,8 @@ export const IdeasTab: React.FC = () => {
           Ideas Not Available Yet
         </h3>
         <p className="text-xs text-stone-500 dark:text-stone-400 max-w-sm mt-1">
-          Tell the assistant about your event in the chat or load the sample event above to generate personalized concept cards tailored to your budget and guest mix.
+          Tell the assistant about your event in the chat or load the sample event above to generate
+          personalized concept cards tailored to your budget and guest mix.
         </p>
       </section>
     );
@@ -121,7 +129,8 @@ export const IdeasTab: React.FC = () => {
             </span>
           </div>
           <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
-            Tailored to your {state.occasion || 'celebration'} for {state.guestCount || 60} guests in {state.city || 'your city'}
+            Tailored to your {state.occasion || 'celebration'} for {state.guestCount || 60} guests
+            in {state.city || 'your city'}
           </p>
         </div>
 
@@ -174,7 +183,8 @@ export const IdeasTab: React.FC = () => {
               No concepts generated yet
             </h3>
             <p className="text-xs text-stone-500 max-w-sm mx-auto">
-              Generate 3 distinct celebration concepts with elder & kid comfort notes, tailored to your budget share.
+              Generate 3 distinct celebration concepts with elder & kid comfort notes, tailored to
+              your budget share.
             </p>
             <button
               type="button"
