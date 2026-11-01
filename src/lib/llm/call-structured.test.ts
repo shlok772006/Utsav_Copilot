@@ -8,6 +8,19 @@ const TestSchema = z.object({
   count: z.number(),
 });
 
+import { getJsonSchema, IntakeOutputSchema } from './schemas';
+
+describe('getJsonSchema output', () => {
+  it('generates a direct object schema without top-level $ref or $schema', () => {
+    const s = getJsonSchema(IntakeOutputSchema);
+    expect(s.type).toBe('object');
+    expect(s.$ref).toBeUndefined();
+    expect(s.$schema).toBeUndefined();
+    expect(s.properties).toBeDefined();
+    expect((s.properties as Record<string, unknown>).ops).toBeDefined();
+  });
+});
+
 describe('callStructured with repair retry', () => {
   it('succeeds on first attempt when valid JSON is returned', async () => {
     const validJson = JSON.stringify({ greeting: 'Namaste', count: 108 });

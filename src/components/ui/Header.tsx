@@ -3,7 +3,15 @@
 import React from 'react';
 import { useEventStore } from '@/lib/store/useEventStore';
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+  currentView?: 'landing' | 'planner';
+  onViewChange?: (view: 'landing' | 'planner') => void;
+}
+
+export const Header: React.FC<HeaderProps> = ({
+  currentView = 'planner',
+  onViewChange,
+}) => {
   const { history, undo, loadSampleEvent, resetEvent } = useEventStore();
   const canUndo = history.length > 0;
 
@@ -12,24 +20,57 @@ export const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand identity */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-linear-to-tr from-amber-600 to-rose-600 flex items-center justify-center text-white font-bold text-lg shadow-sm">
-            उ
-          </div>
-          <div>
-            <h1 className="text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
-              <span>Utsav Copilot</span>
-              <span className="text-xs font-normal px-2 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300 font-serif border border-amber-300 dark:border-amber-800">
-                उत्सव
-              </span>
-            </h1>
-            <p className="text-xs text-stone-500 dark:text-stone-400 hidden sm:block">
-              Living Event Plan for Indian Family Celebrations
-            </p>
-          </div>
+          <button
+            type="button"
+            onClick={() => onViewChange?.('landing')}
+            className="flex items-center gap-3 text-left cursor-pointer group"
+            title="Go to Home / Overview"
+          >
+            <div className="w-9 h-9 rounded-xl bg-linear-to-tr from-amber-600 to-rose-600 flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
+              उ
+            </div>
+            <div>
+              <h1 className="text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
+                <span>Utsav Copilot</span>
+                <span className="text-xs font-normal px-2 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300 font-serif border border-amber-300 dark:border-amber-800">
+                  उत्सव
+                </span>
+              </h1>
+              <p className="text-xs text-stone-500 dark:text-stone-400 hidden sm:block">
+                Living Event Plan for Indian Family Celebrations
+              </p>
+            </div>
+          </button>
         </div>
 
-        {/* Action Controls */}
+        {/* View Switcher & Action Controls */}
         <div className="flex items-center gap-2 sm:gap-3">
+          {onViewChange && (
+            <div className="flex items-center bg-stone-100 dark:bg-stone-800/80 p-0.5 rounded-xl border border-stone-200 dark:border-stone-700 text-xs font-medium mr-1">
+              <button
+                type="button"
+                onClick={() => onViewChange('landing')}
+                className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                  currentView === 'landing'
+                    ? 'bg-white dark:bg-stone-900 text-amber-700 dark:text-amber-300 shadow-xs font-bold'
+                    : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200'
+                }`}
+              >
+                Overview
+              </button>
+              <button
+                type="button"
+                onClick={() => onViewChange('planner')}
+                className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                  currentView === 'planner'
+                    ? 'bg-white dark:bg-stone-900 text-amber-700 dark:text-amber-300 shadow-xs font-bold'
+                    : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200'
+                }`}
+              >
+                Services Workspace
+              </button>
+            </div>
+          )}
           {/* Load Sample Event */}
           <button
             type="button"

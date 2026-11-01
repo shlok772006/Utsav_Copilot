@@ -30,7 +30,7 @@ export const Tabs: React.FC<TabsProps> = ({
     <nav
       role="tablist"
       aria-label="Event Dashboard Tabs"
-      className={`flex items-center gap-1.5 p-1.5 bg-stone-100 dark:bg-stone-800/60 rounded-xl border border-stone-200 dark:border-stone-700/60 overflow-x-auto ${className}`}
+      className={`flex items-center gap-2 p-1.5 bg-white/80 dark:bg-stone-900/80 rounded-2xl border border-stone-200/80 dark:border-stone-800 shadow-xs backdrop-blur-md overflow-x-auto ${className}`}
     >
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
@@ -46,12 +46,12 @@ export const Tabs: React.FC<TabsProps> = ({
             tabIndex={isActive ? 0 : -1}
             disabled={isDisabled}
             onClick={() => !isDisabled && onTabChange(tab.id)}
-            className={`flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-lg transition-all whitespace-nowrap cursor-pointer select-none ${
+            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-xl transition-all whitespace-nowrap cursor-pointer select-none ${
               isActive
-                ? 'bg-white dark:bg-stone-900 text-amber-900 dark:text-amber-300 shadow-xs border border-stone-200/60 dark:border-stone-700/80'
+                ? 'bg-linear-to-r from-amber-600 to-orange-600 text-white shadow-sm font-bold'
                 : isDisabled
                 ? 'opacity-40 cursor-not-allowed text-stone-400 dark:text-stone-500'
-                : 'text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-200/60 dark:hover:bg-stone-700/50'
+                : 'text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800/60'
             }`}
           >
             <span aria-hidden="true" className="text-sm leading-none">

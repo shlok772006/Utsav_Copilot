@@ -63,7 +63,7 @@ export const EventCard: React.FC = () => {
   return (
     <aside
       aria-label="Event State Card"
-      className="flex flex-col h-full bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl shadow-sm overflow-hidden"
+      className="flex flex-col bg-white dark:bg-stone-900 border border-amber-300/30 dark:border-stone-800 rounded-2xl shadow-xs overflow-hidden max-h-[580px]"
     >
       {/* Card Header */}
       <div className="px-5 py-4 border-b border-stone-200 dark:border-stone-800 bg-amber-50/50 dark:bg-stone-950/40 flex items-center justify-between">
@@ -189,11 +189,14 @@ export const EventCard: React.FC = () => {
         ) : null}
 
         {/* Primary Parameters Grid */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4">
           {/* Occasion */}
-          <div className="p-3.5 bg-stone-50 dark:bg-stone-800/40 rounded-xl border border-stone-200/80 dark:border-stone-800">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-xs text-stone-500 dark:text-stone-400 font-medium">Occasion</span>
+          <div className="p-3.5 bg-stone-50/80 dark:bg-stone-800/50 rounded-xl border border-stone-200/80 dark:border-stone-700/60 shadow-2xs hover:border-amber-400/40 transition-colors">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-xs text-stone-500 dark:text-stone-400 font-medium flex items-center gap-1">
+                <span>💍</span>
+                <span>Occasion</span>
+              </span>
               <ProvenanceBadge provenance="user" />
             </div>
             <p className="text-sm font-bold text-stone-900 dark:text-stone-100 capitalize">
@@ -202,9 +205,12 @@ export const EventCard: React.FC = () => {
           </div>
 
           {/* Total Budget */}
-          <div className="p-3.5 bg-stone-50 dark:bg-stone-800/40 rounded-xl border border-stone-200/80 dark:border-stone-800">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-xs text-stone-500 dark:text-stone-400 font-medium">Total Budget</span>
+          <div className="p-3.5 bg-stone-50/80 dark:bg-stone-800/50 rounded-xl border border-stone-200/80 dark:border-stone-700/60 shadow-2xs hover:border-amber-400/40 transition-colors">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-xs text-stone-500 dark:text-stone-400 font-medium flex items-center gap-1">
+                <span>💰</span>
+                <span>Total Budget</span>
+              </span>
               <ProvenanceBadge provenance="user" />
             </div>
             <p className="text-sm font-bold text-amber-700 dark:text-amber-400">
@@ -213,9 +219,12 @@ export const EventCard: React.FC = () => {
           </div>
 
           {/* Guests */}
-          <div className="p-3.5 bg-stone-50 dark:bg-stone-800/40 rounded-xl border border-stone-200/80 dark:border-stone-800">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-xs text-stone-500 dark:text-stone-400 font-medium">Guest Count</span>
+          <div className="p-3.5 bg-stone-50/80 dark:bg-stone-800/50 rounded-xl border border-stone-200/80 dark:border-stone-700/60 shadow-2xs hover:border-amber-400/40 transition-colors">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-xs text-stone-500 dark:text-stone-400 font-medium flex items-center gap-1">
+                <span>👥</span>
+                <span>Guest Count</span>
+              </span>
               <ProvenanceBadge provenance="user" />
             </div>
             <p className="text-sm font-bold text-stone-900 dark:text-stone-100">
@@ -224,9 +233,12 @@ export const EventCard: React.FC = () => {
           </div>
 
           {/* Event Date */}
-          <div className="p-3.5 bg-stone-50 dark:bg-stone-800/40 rounded-xl border border-stone-200/80 dark:border-stone-800">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-xs text-stone-500 dark:text-stone-400 font-medium">Target Date</span>
+          <div className="p-3.5 bg-stone-50/80 dark:bg-stone-800/50 rounded-xl border border-stone-200/80 dark:border-stone-700/60 shadow-2xs hover:border-amber-400/40 transition-colors">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-xs text-stone-500 dark:text-stone-400 font-medium flex items-center gap-1">
+                <span>📅</span>
+                <span>Target Date</span>
+              </span>
               <ProvenanceBadge provenance="user" />
             </div>
             <p className="text-sm font-bold text-stone-900 dark:text-stone-100">
@@ -237,51 +249,80 @@ export const EventCard: React.FC = () => {
 
         {/* City & Venue */}
         {state.city && (
-          <div className="p-3 bg-stone-50 dark:bg-stone-800/40 rounded-xl border border-stone-200/80 dark:border-stone-800 flex items-center justify-between">
-            <span className="text-xs font-medium text-stone-500 dark:text-stone-400">City / Destination</span>
-            <span className="text-xs font-semibold text-stone-900 dark:text-stone-100">{state.city}</span>
+          <div className="p-3 bg-amber-50/40 dark:bg-stone-800/40 rounded-xl border border-amber-200/60 dark:border-stone-700/60 flex items-center justify-between text-xs">
+            <span className="font-medium text-stone-500 dark:text-stone-400 flex items-center gap-1">
+              <span>📍</span>
+              <span>City / Destination</span>
+            </span>
+            <span className="font-semibold text-stone-900 dark:text-stone-100">{state.city}</span>
           </div>
         )}
 
         {/* Required Fields Completion Checklist */}
-        <div className="p-4 bg-amber-50/40 dark:bg-stone-800/20 rounded-xl border border-amber-200/60 dark:border-stone-800">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-amber-900 dark:text-amber-300 mb-2.5">
-            Plan Initialization Checklist
-          </h3>
-          <div className="space-y-1.5 text-xs">
-            <div className="flex items-center gap-2">
-              <span className={hasOccasion ? 'text-emerald-600 font-bold' : 'text-stone-400'}>
-                {hasOccasion ? '✓' : '○'}
-              </span>
-              <span className={hasOccasion ? 'text-stone-800 dark:text-stone-200 font-medium' : 'text-stone-500'}>
-                Celebration Occasion
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className={hasBudget ? 'text-emerald-600 font-bold' : 'text-stone-400'}>
-                {hasBudget ? '✓' : '○'}
-              </span>
-              <span className={hasBudget ? 'text-stone-800 dark:text-stone-200 font-medium' : 'text-stone-500'}>
-                Target Total Budget (INR)
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className={hasGuests ? 'text-emerald-600 font-bold' : 'text-stone-400'}>
-                {hasGuests ? '✓' : '○'}
-              </span>
-              <span className={hasGuests ? 'text-stone-800 dark:text-stone-200 font-medium' : 'text-stone-500'}>
-                Approximate Guest Headcount
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className={hasDate ? 'text-emerald-600 font-bold' : 'text-stone-400'}>
-                {hasDate ? '✓' : '○'}
-              </span>
-              <span className={hasDate ? 'text-stone-800 dark:text-stone-200 font-medium' : 'text-stone-500'}>
-                Event Date & Countdown
-              </span>
-            </div>
+        <div className="p-3.5 bg-stone-50/80 dark:bg-stone-800/40 rounded-xl border border-stone-200/80 dark:border-stone-700/60">
+          <div className="flex items-center justify-between mb-1.5">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-amber-900 dark:text-amber-300">
+              Plan Initialization Checklist
+            </h3>
+            <span className="text-[11px] font-bold text-amber-600 dark:text-amber-400">
+              {Number(hasOccasion) + Number(hasBudget) + Number(hasGuests) + Number(hasDate)} / 4 Ready
+            </span>
           </div>
+
+          {/* Mini progress bar */}
+          <div className="w-full bg-stone-200 dark:bg-stone-700 h-1.5 rounded-full overflow-hidden mb-2.5">
+            <div
+              className="bg-linear-to-r from-amber-500 to-emerald-500 h-full rounded-full transition-all duration-300"
+              style={{
+                width: `${((Number(hasOccasion) + Number(hasBudget) + Number(hasGuests) + Number(hasDate)) / 4) * 100}%`,
+              }}
+            />
+          </div>
+
+          {isReady ? (
+            <div className="flex items-center justify-between text-xs text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1.5 rounded-lg border border-emerald-200 dark:border-emerald-800/60 font-medium">
+              <span className="flex items-center gap-1.5">
+                <span>✓</span>
+                <span>All parameters active & driving calculations</span>
+              </span>
+              <span className="text-[10px] uppercase font-bold tracking-wider text-emerald-600 dark:text-emerald-400">100%</span>
+            </div>
+          ) : (
+            <div className="space-y-1.5 text-xs">
+              <div className="flex items-center gap-2">
+                <span className={hasOccasion ? 'text-emerald-600 font-bold' : 'text-stone-400'}>
+                  {hasOccasion ? '✓' : '○'}
+                </span>
+                <span className={hasOccasion ? 'text-stone-800 dark:text-stone-200 font-medium' : 'text-stone-500'}>
+                  Celebration Occasion
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={hasBudget ? 'text-emerald-600 font-bold' : 'text-stone-400'}>
+                  {hasBudget ? '✓' : '○'}
+                </span>
+                <span className={hasBudget ? 'text-stone-800 dark:text-stone-200 font-medium' : 'text-stone-500'}>
+                  Target Total Budget (INR)
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={hasGuests ? 'text-emerald-600 font-bold' : 'text-stone-400'}>
+                  {hasGuests ? '✓' : '○'}
+                </span>
+                <span className={hasGuests ? 'text-stone-800 dark:text-stone-200 font-medium' : 'text-stone-500'}>
+                  Approximate Guest Headcount
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={hasDate ? 'text-emerald-600 font-bold' : 'text-stone-400'}>
+                  {hasDate ? '✓' : '○'}
+                </span>
+                <span className={hasDate ? 'text-stone-800 dark:text-stone-200 font-medium' : 'text-stone-500'}>
+                  Event Date & Countdown
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Priority Sliders */}

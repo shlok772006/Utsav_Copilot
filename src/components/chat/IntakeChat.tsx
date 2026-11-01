@@ -151,18 +151,27 @@ export const IntakeChat: React.FC = () => {
           return (
             <div
               key={msg.id}
-              className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}
+              className={`flex gap-2.5 ${isUser ? 'justify-end' : 'justify-start'}`}
             >
+              {!isUser && (
+                <div
+                  aria-hidden="true"
+                  className="w-7 h-7 rounded-lg bg-linear-to-tr from-amber-600 to-rose-600 flex items-center justify-center text-white font-bold text-xs shrink-0 mt-0.5 shadow-2xs"
+                >
+                  उ
+                </div>
+              )}
               <div
-                className={`max-w-[85%] sm:max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                className={`max-w-[85%] sm:max-w-[78%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                   isUser
-                    ? 'bg-amber-600 text-white rounded-br-xs shadow-xs'
-                    : 'bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-stone-100 rounded-bl-xs border border-stone-200/80 dark:border-stone-700/60 shadow-xs'
+                    ? 'bg-linear-to-r from-amber-600 to-orange-600 text-white rounded-br-xs shadow-sm font-medium'
+                    : 'bg-stone-50 dark:bg-stone-800/90 text-stone-900 dark:text-stone-100 rounded-bl-xs border border-stone-200/80 dark:border-stone-700/60 shadow-xs'
                 }`}
               >
                 {!isUser && (
-                  <div className="flex items-center gap-1.5 mb-1 text-[11px] font-medium text-amber-700 dark:text-amber-400">
+                  <div className="flex items-center gap-1.5 mb-1.5 text-[11px] font-semibold text-amber-700 dark:text-amber-400">
                     <span>उत्सव Copilot</span>
+                    <span className="text-[10px] text-stone-400 font-normal">• Living Plan Assistant</span>
                   </div>
                 )}
                 <p className="whitespace-pre-wrap">{msg.content}</p>
@@ -172,10 +181,16 @@ export const IntakeChat: React.FC = () => {
         })}
 
         {isGenerating && (
-          <div className="flex justify-start">
-            <div className="bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 rounded-2xl rounded-bl-xs px-4 py-2.5 text-xs flex items-center gap-2 border border-stone-200/80 dark:border-stone-700/60 shadow-xs">
-              <span className="inline-block animate-spin">✦</span>
-              <span>Reasoning and tailoring your plan...</span>
+          <div className="flex gap-2.5 justify-start items-center">
+            <div
+              aria-hidden="true"
+              className="w-7 h-7 rounded-lg bg-linear-to-tr from-amber-600 to-rose-600 flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-2xs"
+            >
+              उ
+            </div>
+            <div className="bg-amber-50/60 dark:bg-stone-800/80 text-amber-900 dark:text-amber-200 rounded-2xl rounded-bl-xs px-4 py-2.5 text-xs flex items-center gap-2 border border-amber-300/40 dark:border-amber-800/40 shadow-xs">
+              <span className="inline-block animate-spin text-amber-500">✦</span>
+              <span className="font-medium">Formulating your celebration strategy & calculating budget...</span>
             </div>
           </div>
         )}

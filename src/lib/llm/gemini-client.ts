@@ -13,7 +13,7 @@ export class GeminiClient implements LlmClient {
       );
     }
     this.client = new GoogleGenAI({ apiKey: key });
-    this.model = model || process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+    this.model = model || process.env.GEMINI_MODEL || 'gemini-flash-latest';
   }
 
   async generateStructured(
@@ -33,17 +33,43 @@ export class GeminiClient implements LlmClient {
       config.systemInstruction = options.systemInstruction;
     }
 
-    const response = await this.client.models.generateContent({
-      model: this.model,
-      contents: prompt,
-      config,
-    });
+    const candidateModels = [
+      this.model,
+      'gemini-flash-latest',
+      'gemini-3.7-flash',
+      'gemini-3.8-flash',
+    ].filter((m, idx, arr) => arr.indexOf(m) === idx);
 
-    const text = response.text;
-    if (!text) {
-      throw new Error('Gemini returned an empty response.');
+    let lastError: unknown = null;
+
+    for (const m of candidateModels) {
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          const response = await this.client.models.generateContent({
+            model: m,
+            contents: prompt,
+            config,
+          });
+
+          const text = response.text;
+          if (!text) {
+            throw new Error('Gemini returned an empty response.');
+          }
+
+          return text;
+        } catch (err: unknown) {
+          lastError = err;
+          const errMsg = err instanceof Error ? err.message : String(err);
+          if (errMsg.includes('503')) {
+            // Temporary demand spike, wait briefly and retry or cascade
+            await new Promise((resolve) => setTimeout(resolve, 1200));
+            continue;
+          }
+          break;
+        }
+      }
     }
 
-    return text;
+    throw lastError;
   }
 }

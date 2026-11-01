@@ -174,8 +174,28 @@ export const ChangeBar: React.FC<ChangeBarProps> = ({ onReplanReady, className =
   return (
     <div
       aria-label="Plan Change Bar"
-      className={`p-3 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl shadow-sm ${className}`}
+      className={`p-4 bg-linear-to-b from-amber-500/5 to-rose-500/5 dark:from-stone-900 dark:to-stone-900 border border-amber-300/60 dark:border-amber-800/60 rounded-2xl shadow-sm backdrop-blur-md ${className}`}
     >
+      {/* Copilot Header */}
+      <div className="flex items-center justify-between mb-2.5">
+        <div className="flex items-center gap-2">
+          <span className="flex items-center justify-center w-6 h-6 rounded-lg bg-linear-to-tr from-amber-600 to-rose-600 text-white text-xs font-bold shadow-2xs">
+            ⚡
+          </span>
+          <div>
+            <h3 className="text-xs font-bold text-stone-900 dark:text-stone-100 flex items-center gap-1.5">
+              <span>Living Replan Copilot</span>
+              <span className="px-1.5 py-0.2 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-[10px] font-semibold border border-amber-300/60 dark:border-amber-800/60">
+                What-If Engine
+              </span>
+            </h3>
+            <p className="text-[11px] text-stone-500 dark:text-stone-400">
+              Simulate budget drops, date shifts, or headcount changes
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Clarification Callout */}
       {clarification && (
         <div
@@ -227,7 +247,7 @@ export const ChangeBar: React.FC<ChangeBarProps> = ({ onReplanReady, className =
       )}
 
       {/* Change Input Form */}
-      <form onSubmit={handleFormSubmit} className="flex items-center gap-2">
+      <form onSubmit={handleFormSubmit} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
         <div className="relative flex-1">
           <input
             type="text"
@@ -236,7 +256,7 @@ export const ChangeBar: React.FC<ChangeBarProps> = ({ onReplanReady, className =
             disabled={isLoading}
             placeholder="Change anything (e.g. 'Budget is now 2 lakh and event moved 2 weeks earlier')..."
             aria-label="Plan change request"
-            className="w-full pl-3.5 pr-8 py-2 text-xs sm:text-sm bg-stone-50 dark:bg-stone-800/80 border border-stone-200 dark:border-stone-700 rounded-xl text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:outline-hidden focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all disabled:opacity-50"
+            className="w-full pl-3.5 pr-8 py-2.5 text-xs sm:text-sm bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:outline-hidden focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all disabled:opacity-50 shadow-2xs"
           />
           {text && (
             <button
@@ -254,12 +274,12 @@ export const ChangeBar: React.FC<ChangeBarProps> = ({ onReplanReady, className =
           type="submit"
           disabled={!text.trim() || isLoading}
           aria-busy={isLoading}
-          className="px-4 py-2 bg-linear-to-r from-amber-600 to-rose-600 hover:from-amber-700 hover:to-rose-700 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-xs transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5 whitespace-nowrap"
+          className="px-5 py-2.5 bg-linear-to-r from-amber-600 to-rose-600 hover:from-amber-700 hover:to-rose-700 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-xs transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 whitespace-nowrap"
         >
           {isLoading ? (
             <>
               <span className="inline-block w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              <span>Analyzing...</span>
+              <span>Analyzing Impact...</span>
             </>
           ) : (
             <>
@@ -271,13 +291,13 @@ export const ChangeBar: React.FC<ChangeBarProps> = ({ onReplanReady, className =
       </form>
 
       {/* Hero Quick Demo Chip */}
-      <div className="mt-2 flex items-center gap-1.5 overflow-x-auto text-[11px] text-stone-500 dark:text-stone-400">
-        <span className="font-medium whitespace-nowrap">Try:</span>
+      <div className="mt-2.5 flex items-center gap-2 overflow-x-auto text-[11px] text-stone-500 dark:text-stone-400">
+        <span className="font-semibold text-stone-600 dark:text-stone-300 whitespace-nowrap">Try:</span>
         <button
           type="button"
           disabled={isLoading}
           onClick={() => handleQuickChipClick(HERO_DEMO_TEXT)}
-          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 border border-amber-200/80 dark:border-amber-800/80 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors cursor-pointer disabled:opacity-50 text-left font-medium whitespace-nowrap"
+          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-100/70 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 border border-amber-300/80 dark:border-amber-800 hover:bg-amber-200/80 dark:hover:bg-amber-900/60 transition-colors cursor-pointer disabled:opacity-50 text-left font-semibold whitespace-nowrap shadow-2xs"
         >
           <span>🎯</span>
           <span>&quot;{HERO_DEMO_TEXT}&quot;</span>
