@@ -13,7 +13,7 @@ export class GeminiClient implements LlmClient {
       );
     }
     this.client = new GoogleGenAI({ apiKey: key });
-    this.model = model || process.env.GEMINI_MODEL || 'gemini-flash-latest';
+    this.model = model || process.env.GEMINI_MODEL || 'gemini-3.5-flash';
   }
 
   async generateStructured(
@@ -35,9 +35,11 @@ export class GeminiClient implements LlmClient {
 
     const candidateModels = [
       this.model,
+      'gemini-3.5-flash',
+      'gemini-3.6-flash',
+      'gemini-flash-lite-latest',
+      'gemini-3.1-flash-lite',
       'gemini-flash-latest',
-      'gemini-3.7-flash',
-      'gemini-3.8-flash',
     ].filter((m, idx, arr) => arr.indexOf(m) === idx);
 
     let lastError: unknown = null;
