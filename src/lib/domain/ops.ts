@@ -7,9 +7,21 @@ const VALID_CORE_CATEGORIES = new Set(CoreCategorySchema.options);
 const KNOWN_TASK_IDS = new Set(TASK_TEMPLATES.map((t) => t.id));
 
 /**
- * Pure domain operations engine:
- * Applies a list of Op updates to an EventState with strict bounds checking.
- * Rejects invalid or out-of-bounds ops with explanatory reasons, while applying all valid ops.
+ * Pure domain operations engine (Atomic State Transition Reducer).
+ *
+ * Applies a batch of operation updates (`Op[]`) to an EventState with strict invariant validation:
+ * - Validates budget amounts against absolute boundaries (`BUDGET_LIMITS.min` to `BUDGET_LIMITS.max`).
+ * - Validates headcount limits (`GUEST_LIMITS.min` to `GUEST_LIMITS.max`).
+ * - Validates date shifts against reference calendar bounds.
+ * - Enforces category priority boundaries (levels 1-5).
+ * - Enforces category locking integrity.
+ * - Deeply clones input state to ensure pure immutability with zero side-effects.
+ * - Any invalid or out-of-bounds operations are cleanly captured in `rejected` with actionable explanation reasons.
+ *
+ * @param state - The base EventState to mutate.
+ * @param ops - An array of atomic state operations (`set_budget`, `scale_budget`, `shift_date_days`, etc.).
+ * @param referenceDate - Optional ISO 'YYYY-MM-DD' reference date used for relative date shifts.
+ * @returns Object containing the new immutable `state` and an array of any `rejected` operations with reasons.
  */
 export function applyOps(
   state: EventState,

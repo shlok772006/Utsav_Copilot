@@ -7,10 +7,18 @@ import { scheduleTasks } from './timeline';
 import { EventState, Plan, Warning } from './types';
 
 /**
- * Pure domain plan builder:
- * Combines budget allocation, timeline scheduling, and domain warning rules.
- * Handles missing required fields gracefully with partial plans and MISSING_REQUIRED warnings.
- * Never throws exceptions on incomplete state.
+ * Pure domain plan builder (Primary Domain Facade).
+ *
+ * Integrates mathematical budget allocation, CPM timeline scheduling, and heuristic warning triggers:
+ * - Checks for incomplete initialization fields (`MISSING_REQUIRED` warnings).
+ * - Emits `LOW_PER_GUEST_CATERING` when per-head catering falls below minimum threshold.
+ * - Emits `HIGH_PER_HEAD_VENUE` when venue allocation exceeds safe upper bound.
+ * - Emits `COMPRESSED_SCHEDULE` and `OVERDUE_TASK` based on date math.
+ * - Never throws runtime exceptions on partial/incomplete event state.
+ *
+ * @param state - The current EventState to evaluate.
+ * @param today - Current reference date as an ISO 'YYYY-MM-DD' string.
+ * @returns A consolidated Plan containing budget lines, scheduled tasks, and active domain warnings.
  */
 export function buildPlan(state: EventState, today: string): Plan {
   const warnings: Warning[] = [];

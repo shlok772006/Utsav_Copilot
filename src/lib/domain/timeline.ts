@@ -9,13 +9,22 @@ export class CycleError extends Error {
 }
 
 /**
- * Pure UTC-based calendar date helpers to ensure determinism across all environments.
+ * Parses an ISO date string (YYYY-MM-DD) into a deterministic UTC Date object.
+ *
+ * @param isoStr - Date string formatted strictly as 'YYYY-MM-DD'.
+ * @returns A Date object instantiated at UTC midnight (00:00:00Z).
  */
 export function parseISODate(isoStr: string): Date {
   const [year, month, day] = isoStr.split('-').map(Number);
   return new Date(Date.UTC(year, month - 1, day));
 }
 
+/**
+ * Formats a UTC Date object into a standard ISO calendar string ('YYYY-MM-DD').
+ *
+ * @param d - The UTC Date to format.
+ * @returns An ISO date string padded with leading zeros (e.g. '2026-11-05').
+ */
 export function formatISODate(d: Date): string {
   const year = d.getUTCFullYear();
   const month = String(d.getUTCMonth() + 1).padStart(2, '0');
@@ -23,12 +32,26 @@ export function formatISODate(d: Date): string {
   return `${year}-${month}-${day}`;
 }
 
+/**
+ * Deterministically adds or subtracts a signed number of calendar days to an ISO date.
+ *
+ * @param isoStr - Base date string formatted as 'YYYY-MM-DD'.
+ * @param days - Number of days to add (positive) or subtract (negative).
+ * @returns The resulting date as an ISO 'YYYY-MM-DD' string.
+ */
 export function addDays(isoStr: string, days: number): string {
   const d = parseISODate(isoStr);
   d.setUTCDate(d.getUTCDate() + days);
   return formatISODate(d);
 }
 
+/**
+ * Computes the exact signed number of calendar days between two ISO dates.
+ *
+ * @param fromIso - Start date string ('YYYY-MM-DD').
+ * @param toIso - End date string ('YYYY-MM-DD').
+ * @returns The difference in whole calendar days (positive if toIso is after fromIso).
+ */
 export function daysBetween(fromIso: string, toIso: string): number {
   const from = parseISODate(fromIso).getTime();
   const to = parseISODate(toIso).getTime();
@@ -37,8 +60,15 @@ export function daysBetween(fromIso: string, toIso: string): number {
 }
 
 /**
- * Topological sort of task templates using Kahn's algorithm.
- * Throws CycleError if a circular dependency is detected.
+ * Topological sort of task templates using Kahn's algorithm (O(V + E) complexity).
+ *
+ * Computes an in-degree map for all templates, enqueuing nodes with zero incoming edges,
+ * and decrementing neighbor in-degrees as tasks are processed. Throws a CycleError
+ * if circular dependencies exist.
+ *
+ * @param templates - Array of TaskTemplates to order by prerequisite dependencies.
+ * @returns Topologically sorted array where each task appears strictly after its dependencies.
+ * @throws {CycleError} If a cyclic dependency loop is detected among active templates.
  */
 export function topologicalSortTasks(templates: TaskTemplate[]): TaskTemplate[] {
   const templateMap = new Map<string, TaskTemplate>();
@@ -101,13 +131,20 @@ export interface TimelineResult {
 }
 
 /**
- * Pure domain timeline scheduler:
- * 1. Filter templates by occasion.
- * 2. Kahn's topological sort (throws CycleError if cyclic).
- * 3. CPM Forward pass to calculate critical path length.
- * 4. CPM Backward pass from eventDate to calculate deadlines and latestStart dates.
- * 5. Determine task status (done, blocked, overdue, ready).
- * 6. Detect compressed timeline (daysAvailable < criticalPathDays).
+ * Pure domain timeline scheduler (Critical Path Method - CPM).
+ *
+ * Implements a dual-pass scheduling algorithm over the directed acyclic graph:
+ * 1. Filter templates by active celebration occasion (wedding, anniversary, birthday, etc.).
+ * 2. Kahn's topological sort (O(V+E)) with circular dependency detection.
+ * 3. CPM Forward Pass: Calculates early start and earliest finish times, determining critical path days.
+ * 4. CPM Backward Pass: Traverses backward from eventDate to compute exact deadlines and latest start dates.
+ * 5. Status Resolution: Assigns `done`, `blocked`, `overdue`, or `ready` statuses dynamically.
+ * 6. Compression Detection: Flags `compressed = true` if available days < critical path duration.
+ *
+ * @param state - The current EventState with occasion, eventDate, and completedTasks.
+ * @param today - Current reference date as an ISO 'YYYY-MM-DD' string.
+ * @param customTemplates - Optional custom TaskTemplate array (defaults to TASK_TEMPLATES).
+ * @returns TimelineResult containing scheduled tasks, available countdown, critical path days, and compression flag.
  */
 export function scheduleTasks(
   state: EventState,

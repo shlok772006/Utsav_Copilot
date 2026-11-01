@@ -1,9 +1,19 @@
 import { CoreCategory, EventState, NormalizedQuote, Plan, RawQuote, Warning } from './types';
 
 /**
- * Pure domain quote normalizer:
- * Calculates total quote price, per-guest unit cost, delta against category budget line,
- * and detects missing unit info or over-budget quotes.
+ * Pure domain quote normalizer (Vendor Financial Comparator).
+ *
+ * Ingests a raw extracted vendor quote and normalizes it against the celebration plan:
+ * 1. Computes Total Price: Handles fixed pricing, per-plate/per-guest multipliers, and applies unbundled tax rates.
+ * 2. Computes Unit Costs: Derives normalized per-guest costs based on coverage headcount or event guest count.
+ * 3. Budget Delta Analysis: Compares normalized quote total against the category's allocated budget line.
+ * 4. Missing Field Detection: Flags missing unit rates or coverage counts as `"Not stated"`.
+ * 5. Over-Budget Warnings: Triggers `OVER_BUDGET_QUOTE` warnings if the quote exceeds category budget limits.
+ *
+ * @param raw - The raw extracted vendor quote from LLM parsing or direct user entry.
+ * @param state - The current EventState (supplying guestCount if quote omitted it).
+ * @param plan - The active Plan (providing the target category budget line for delta calculation).
+ * @returns A NormalizedQuote with calculated total, per-guest rate, delta vs budget line, and warning triggers.
  */
 export function normalizeQuote(
   raw: RawQuote,

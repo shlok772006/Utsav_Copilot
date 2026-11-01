@@ -1,15 +1,20 @@
 import { CoreCategory, EventState, Op, Plan, Scenario } from './types';
 
 /**
- * Pure domain scenario generator:
- * Produces 2-3 deterministic actionable scenarios using the 5 canonical levers:
- * 1. Trim guest count (15% reduction)
- * 2. Rebalance budget toward priorities
- * 3. Simplify low-priority categories
- * 4. Extend timeline (when compressed)
- * 5. Drop / fast-track optional tasks
+ * Pure domain scenario generator (Tradeoff Option Synthesizer).
  *
- * Ranks scenarios to best address active plan warnings.
+ * Deterministically generates 2-3 actionable tradeoff scenarios using the 5 canonical levers:
+ * 1. Trim Guest Count: Applies a 15% headcount reduction to restore high per-plate catering quality.
+ * 2. Rebalance Priorities: Elevates squeezed categories (e.g., catering) while reducing non-core categories.
+ * 3. Simplify Low-Priority Categories: Steps down non-essential categories (entertainment/decor/invites) to Level 1.
+ * 4. Extend Timeline: Pushes the event date forward when the timeline is compressed (`daysAvailable < criticalPath`).
+ * 5. Fast-track Optional Tasks: Marks non-critical milestones as resolved to accelerate execution.
+ *
+ * Ranks and filters scenarios based on which active plan warnings they resolve.
+ *
+ * @param state - The current proposed EventState.
+ * @param plan - The proposed Plan evaluated against budget and timeline constraints.
+ * @returns An array of Scenario objects, each containing actionable state operations (`Op[]`) and tradeoff analyses.
  */
 export function generateScenarios(state: EventState, plan: Plan): Scenario[] {
   const scenarios: Scenario[] = [];

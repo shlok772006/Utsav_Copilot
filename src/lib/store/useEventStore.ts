@@ -30,6 +30,15 @@ export interface StoredQuote {
   timestamp: number;
 }
 
+/**
+ * Event Store State Machine & Reversible History Buffer.
+ *
+ * Implements a centralized Zustand store that enforces unidirectional state updates:
+ * - Mutates state solely through validated operations (`applyOpsAction`) or explicit field overrides (`updateField`).
+ * - Automatically recalculates the full deterministic Plan (`buildPlan`) upon every state change.
+ * - Manages a bounded ring buffer of previous states (`history`) capped at `MAX_HISTORY_SNAPSHOTS` for 1-click Undo.
+ * - Persists active celebration sessions in localStorage with Zod schema verification upon re-hydration.
+ */
 export interface EventStoreState {
   state: EventState;
   plan: Plan | null;

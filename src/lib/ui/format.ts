@@ -10,6 +10,13 @@ const inrFormatter = new Intl.NumberFormat('en-IN', {
 
 const numberFormatter = new Intl.NumberFormat('en-IN');
 
+/**
+ * Formats a monetary integer amount into Indian Rupees (e.g. ₹3,00,000).
+ * Uses Intl.NumberFormat('en-IN') with zero fraction digits.
+ *
+ * @param amount - The numerical amount in INR, or null/undefined.
+ * @returns Formatted currency string with ₹ symbol and Indian grouping.
+ */
 export function formatINR(amount: number | null | undefined): string {
   if (typeof amount !== 'number' || isNaN(amount)) {
     return '₹0';
@@ -17,6 +24,12 @@ export function formatINR(amount: number | null | undefined): string {
   return inrFormatter.format(amount);
 }
 
+/**
+ * Formats a raw integer into Indian numbering format with comma grouping (e.g. 1,00,000).
+ *
+ * @param num - The raw integer number, or null/undefined.
+ * @returns Formatted number string with en-IN separators.
+ */
 export function formatNumber(num: number | null | undefined): string {
   if (typeof num !== 'number' || isNaN(num)) {
     return '0';
@@ -24,6 +37,13 @@ export function formatNumber(num: number | null | undefined): string {
   return numberFormatter.format(num);
 }
 
+/**
+ * Formats an ISO 'YYYY-MM-DD' calendar date string into an accessible display date (e.g. '6 Dec 2026').
+ * Guarantees pure UTC rendering without local timezone shift artifacts.
+ *
+ * @param isoDate - Valid ISO string formatted as 'YYYY-MM-DD', or null/undefined.
+ * @returns Human-friendly formatted date string, or 'Not set' if null or invalid.
+ */
 export function formatDateDisplay(isoDate: string | null | undefined): string {
   if (!isoDate || !/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) {
     return 'Not set';

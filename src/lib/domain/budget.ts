@@ -15,9 +15,20 @@ import {
 const CORE_CATEGORIES: CoreCategory[] = CoreCategorySchema.options;
 
 /**
- * Largest-remainder (Hare-Niemeyer) rounding.
- * Distributes a target total among decimal allocations so that all amounts
- * are integers and their sum equals targetTotal exactly.
+ * Largest-remainder (Hare-Niemeyer method) integer apportionment algorithm.
+ * 
+ * Takes an array of unrounded decimal allocations and a target integer total,
+ * distributing the integer deficit across items ordered by fractional remainder.
+ * Breaks remainder ties lexicographically by item key to guarantee 100% determinism.
+ *
+ * @param items - Array of category keys paired with their calculated unrounded decimal amounts.
+ * @param targetTotal - The exact integer total that the sum of all rounded allocations must equal.
+ * @returns A Map of category keys to strictly rounded integer amounts where sum(values) === targetTotal.
+ * 
+ * @example
+ * // If targetTotal is 100 and items raw are [33.4, 33.3, 33.3],
+ * // floors are [33, 33, 33] (sum 99, deficit 1).
+ * // Remainder 0.4 gets the extra 1 -> [34, 33, 33].
  */
 function largestRemainderRound(
   items: Array<{ key: string; raw: number }>,
@@ -67,12 +78,18 @@ function largestRemainderRound(
 }
 
 /**
- * Pure domain function to allocate event budget lines based on:
- * - Base occasion shares
- * - Fixed 8% contingency buffer
- * - User category priority multipliers (1 to 5)
- * - Locked category amounts
- * - Largest-remainder integer rounding so sum === totalBudget exactly.
+ * Pure domain budget allocation engine.
+ * 
+ * Calculates integer budget lines across 8 core celebration categories plus an 8% contingency safety buffer.
+ * Incorporates:
+ * 1. Base cultural shares specific to the event occasion (Wedding, Anniversary, Birthday, etc.).
+ * 2. Fixed 8% contingency safety reserve (`CONTINGENCY_PERCENT`).
+ * 3. User priority multipliers (levels 1-5 where 3 is baseline 1.0x).
+ * 4. User-locked category amounts (guaranteeing locked values remain immutable).
+ * 5. Deterministic largest-remainder integer rounding ensuring total sum === state.totalBudget.
+ *
+ * @param state - The current validated EventState containing budget, occasion, priorities, and locked lines.
+ * @returns An array of BudgetLine objects with exact amounts, normalized shares, and per-guest figures.
  */
 export function allocateBudget(state: EventState): BudgetLine[] {
   const totalBudget = state.totalBudget ? Math.round(state.totalBudget) : 0;

@@ -10,11 +10,17 @@ import {
 } from './types';
 
 /**
- * Pure domain function to calculate the diff between two plans:
- * - Budget category line amount and share changes.
- * - Tasks whose deadlines shifted (with days moved).
- * - Task status transitions.
- * - Warnings newly triggered (added) vs resolved.
+ * Pure domain differential engine (Plan Comparison & Diff Taxonomy).
+ *
+ * Computes an itemized structural diff between two celebration plans:
+ * 1. Category Budget Deltas: Computes signed rupee difference and percentage share change per category.
+ * 2. Schedule Task Shifts: Identifies milestones with shifted deadlines and computes net calendar days moved.
+ * 3. Task Status Lifecycle: Detects transitions between `ready`, `blocked`, `overdue`, and `done`.
+ * 4. Warning Dynamics: Tracks newly introduced warnings (`addedWarnings`) vs eliminated warnings (`resolvedWarnings`).
+ *
+ * @param before - The baseline Plan before modifications.
+ * @param after - The proposed Plan after applying updates or scenario operations.
+ * @returns A structured PlanDiff object consumed by the Replan Diff UI and Advisor LLM.
  */
 export function diffPlans(before: Plan, after: Plan): PlanDiff {
   // 1. Budget deltas
