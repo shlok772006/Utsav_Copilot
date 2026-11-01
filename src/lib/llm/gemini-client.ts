@@ -1,10 +1,21 @@
 import { GoogleGenAI } from '@google/genai';
 import { LlmClient, StructuredGenerationOptions } from './client';
 
+/**
+ * Production implementation of LlmClient using Google GenAI SDK.
+ * Incorporates intelligent cascading fallback across active Gemini models
+ * and automatic retry for 503 transient service spikes.
+ */
 export class GeminiClient implements LlmClient {
   private client: GoogleGenAI;
   private model: string;
 
+  /**
+   * Initializes GeminiClient instance with API credentials and preferred model.
+   *
+   * @param apiKey - Optional API key (defaults to GEMINI_API_KEY environment variable).
+   * @param model - Optional default model identifier (defaults to gemini-3.5-flash).
+   */
   constructor(apiKey?: string, model?: string) {
     const key = apiKey || process.env.GEMINI_API_KEY;
     if (!key) {
@@ -16,6 +27,14 @@ export class GeminiClient implements LlmClient {
     this.model = model || process.env.GEMINI_MODEL || 'gemini-3.5-flash';
   }
 
+  /**
+   * Generates structured JSON output conforming to a JSON schema.
+   *
+   * @param prompt - Interpolated text prompt with fenced inputs.
+   * @param jsonSchema - JSON Schema specification for response structure.
+   * @param options - Generation options such as temperature and systemInstruction.
+   * @returns Raw JSON string guaranteed to match schema structure.
+   */
   async generateStructured(
     prompt: string,
     jsonSchema: Record<string, unknown>,

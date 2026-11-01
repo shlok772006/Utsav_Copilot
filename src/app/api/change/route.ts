@@ -12,6 +12,21 @@ const ChangeRequestSchema = z.object({
   text: z.string().min(1),
 });
 
+/**
+ * POST /api/change
+ *
+ * Natural language replanning instruction parser.
+ * Interprets user change requests (e.g., "guest count up to 450", "slash decor budget")
+ * and translates them into structured EventOp mutations for deterministic state transition.
+ *
+ * Invariants:
+ * - Rate limited by client IP.
+ * - Enforces Zod validation on request payload.
+ * - Does not perform direct arithmetic: emits operations executed by domain applyOps.
+ *
+ * @param req - NextRequest containing EventState and user change text.
+ * @returns NextResponse with list of domain ops and optional clarification string.
+ */
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req);
   const rateLimit = checkRateLimit(ip);

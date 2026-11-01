@@ -4,6 +4,9 @@ import { GeminiClient } from './gemini-client';
 import { loadPrompt, PromptId } from './prompts-loader';
 import { getJsonSchema } from './schemas';
 
+/**
+ * Error thrown when LLM output violates the required Zod schema after repair retry.
+ */
 export class LlmBadOutputError extends Error {
   public code = 'LLM_BAD_OUTPUT' as const;
   public retryable = true;
@@ -16,6 +19,9 @@ export class LlmBadOutputError extends Error {
   }
 }
 
+/**
+ * Error thrown when downstream LLM client is unreachable or network times out.
+ */
 export class LlmUnavailableError extends Error {
   public code = 'LLM_UNAVAILABLE' as const;
   public retryable = true;
@@ -34,10 +40,20 @@ export interface CallStructuredOptions {
 
 let defaultClient: LlmClient | null = null;
 
+/**
+ * Sets the default LLM client instance (used for injecting fake/mock clients in unit tests).
+ *
+ * @param client - The LlmClient instance or null to reset to default GeminiClient.
+ */
 export function setDefaultLlmClient(client: LlmClient | null): void {
   defaultClient = client;
 }
 
+/**
+ * Retrieves the currently configured LLM client instance.
+ *
+ * @returns The active LlmClient (defaults to GeminiClient).
+ */
 export function getDefaultLlmClient(): LlmClient {
   if (defaultClient) {
     return defaultClient;

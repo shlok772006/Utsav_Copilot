@@ -13,12 +13,32 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Utsav Copilot — Event Planner for Indian Celebrations",
+  title: "Utsav Copilot (उत्सव) — Living Event Plan for Indian Celebrations",
   description:
-    "A living event plan for Indian family celebrations. Budget, timeline, vendors, and smart replanning.",
+    "A living event plan for Indian family celebrations. Mathematical budget splits, critical-path timelines, and smart disruption replanning with zero guesswork.",
+  keywords: [
+    "Indian wedding planner",
+    "celebration planner",
+    "event budget calculator",
+    "anniversary planning",
+    "event copilot",
+    "living event plan",
+  ],
+  authors: [{ name: "Utsav Copilot Team" }],
+  openGraph: {
+    title: "Utsav Copilot — Living Event Plan for Indian Celebrations",
+    description:
+      "A living event plan for Indian family celebrations. Budget, timeline, vendor comparison, and living replan engine.",
+    type: "website",
+    locale: "en_IN",
+  },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang="en"

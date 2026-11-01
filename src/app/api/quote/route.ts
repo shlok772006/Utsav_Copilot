@@ -13,6 +13,21 @@ const QuoteRequestSchema = z.object({
   rawText: z.string().min(1),
 });
 
+/**
+ * POST /api/quote
+ *
+ * Unstructured vendor quote text extraction endpoint.
+ * Ingests raw vendor quotes, WhatsApp messages, or estimate notes, extracting
+ * structured line items, taxes, deliverables, and clarification questions.
+ *
+ * Invariants:
+ * - Never hallucinates unmentioned prices, deliverables, or payment terms.
+ * - Leaves absent fields as null or unstated with high fidelity.
+ * - Extracts granular line items for downstream deterministic calculation.
+ *
+ * @param req - NextRequest containing EventState, category, and rawQuoteText.
+ * @returns NextResponse with extraction results and follow-up vendor questions.
+ */
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req);
   const rateLimit = checkRateLimit(ip);

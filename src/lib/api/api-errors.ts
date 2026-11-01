@@ -19,6 +19,16 @@ export interface ApiErrorResponse {
   };
 }
 
+/**
+ * Constructs a standardized JSON error response.
+ *
+ * @param status - HTTP status code (400, 413, 429, 500, 502, 503).
+ * @param code - Semantic API error code.
+ * @param message - User-friendly error explanation.
+ * @param retryable - Indicates if client should automatically retry request.
+ * @param details - Optional list of granular issue details (e.g. Zod validation paths).
+ * @returns Standardized NextResponse<ApiErrorResponse>.
+ */
 export function createErrorResponse(
   status: number,
   code: ApiErrorCode,
@@ -39,6 +49,12 @@ export function createErrorResponse(
   );
 }
 
+/**
+ * Global API error handler converting unknown exceptions to structured HTTP responses.
+ *
+ * @param err - Caught exception (ZodError, LlmBadOutputError, LlmUnavailableError, etc.).
+ * @returns Formatted NextResponse with appropriate status code and payload.
+ */
 export function handleApiError(err: unknown): NextResponse<ApiErrorResponse> {
   if (err instanceof ZodError) {
     const issues = err.issues.map((i) => `${i.path.join('.')}: ${i.message}`);

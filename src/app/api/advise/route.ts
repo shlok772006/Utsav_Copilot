@@ -13,6 +13,20 @@ const AdviseRequestSchema = z.object({
   scenarios: z.array(ScenarioSchema).min(1),
 });
 
+/**
+ * POST /api/advise
+ *
+ * Strategic replanning advisor endpoint.
+ * Ingests plan differentials, risk warnings, and generated scenario candidates,
+ * providing executive summaries and trade-off commentary.
+ *
+ * Invariants:
+ * - Does not calculate scenarios; evaluates deterministic domain scenarios.
+ * - Highlights budget overruns, timeline collisions, and contractual risks.
+ *
+ * @param req - NextRequest containing EventState, PlanDiff, and Scenario candidates.
+ * @returns NextResponse with executive summary, options analysis, and recommendedScenarioId.
+ */
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req);
   const rateLimit = checkRateLimit(ip);

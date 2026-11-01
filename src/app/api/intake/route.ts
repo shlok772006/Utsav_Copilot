@@ -17,6 +17,22 @@ const IntakeRequestSchema = z.object({
   ).min(1),
 });
 
+/**
+ * POST /api/intake
+ *
+ * Interactive intake chat endpoint.
+ * Ingests multi-turn conversation and state, extracting structured domain state
+ * updates (ops) and conversational replies via Gemini LLM.
+ *
+ * Invariants:
+ * - Rate limited by client IP (30 req / min).
+ * - Enforces Zod validation on request payload.
+ * - Extracts state updates only as formal domain ops (never direct arithmetic).
+ * - Returns structured response conforming to IntakeOutputSchema.
+ *
+ * @param req - NextRequest containing current EventState and conversation messages.
+ * @returns NextResponse with assistantMessage, stateUpdates (ops), readyToPlan flag, and date_hint.
+ */
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req);
   const rateLimit = checkRateLimit(ip);

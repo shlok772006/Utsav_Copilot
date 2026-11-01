@@ -13,6 +13,19 @@ const IdeasRequestSchema = z.object({
   feedback: z.string().optional(),
 });
 
+/**
+ * POST /api/ideas
+ *
+ * Cultural celebration theme & concept ideation endpoint.
+ * Generates thematic concepts tailored to cultural tradition, scale, and budget lines.
+ *
+ * Invariants:
+ * - Employs relative cost levels (budget-friendly, moderate, premium) rather than invented rupee prices.
+ * - Adheres to cultural authenticity and user taste constraints.
+ *
+ * @param req - NextRequest containing EventState, BudgetLines, and optional user feedback.
+ * @returns NextResponse containing structured concept array.
+ */
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req);
   const rateLimit = checkRateLimit(ip);
